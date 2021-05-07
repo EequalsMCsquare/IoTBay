@@ -1,4 +1,6 @@
 # IoTBay - Group 42
+## Branch dev-dongrun
+@ Dongrun Li
 
 ## Group Members
 
@@ -16,5 +18,3 @@
 1. Open this folder with IntelliJ
 2. Setup Tomcat in IntelliJ
 3. Click **Start** button on right corner of IntelliJ's window.
-
-# nmsl
