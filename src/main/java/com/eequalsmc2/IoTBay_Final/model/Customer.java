@@ -3,26 +3,25 @@ package com.eequalsmc2.IoTBay_Final.model;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Customer implements Serializable {
 
     private int id;
-    private String username;
+    private String email;
     private String password;
     private String firstName;
     private String lastName;
     private String gender;
     private Date dob;
-    private String email;
     private String phone;
-    private String[] address;
+    private ArrayList<String> address = new ArrayList<>(3);
 
     public Customer() {
     }
 
-    public Customer(String username, String password, String firstName, String lastName, String gender, Date dob, String email, String phoneNumber) {
-        this.username = username;
+    public Customer( String email, String password, String firstName, String lastName, String gender, Date dob,  String phoneNumber) {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -32,9 +31,8 @@ public class Customer implements Serializable {
         this.phone = phoneNumber;
     }
 
-    public Customer(String username, String password, String firstName, String lastName, String gender, String dob, String email, String phoneNumber) throws ParseException {
+    public Customer(String email, String username, String password, String firstName, String lastName, String gender, String dob,  String phoneNumber) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -50,14 +48,6 @@ public class Customer implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {
@@ -116,15 +106,24 @@ public class Customer implements Serializable {
         this.phone= phoneNumber;
     }
 
+    public ArrayList<String> getAddress() {
+        return this.address;
+    }
+
+    public void addAddress(String address) {
+        if(this.address.size() < 3) {
+            this.address.add(address);
+        }
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
-                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", gender='" + gender + '\'' +
                 ", dateOfBirth=" + dob+
-                ", email='" + email + '\'' +
                 ", phoneNumber='" + phone+ '\'' +
                 ", address='" + address + '\'' +
                 '}';
