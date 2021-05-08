@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 @WebServlet("/loginServlet")
 public class LoginController extends HttpServlet {
@@ -27,25 +25,29 @@ public class LoginController extends HttpServlet {
     }
 
 
-    private boolean isValidEmail(String email) {
-        // TODO:
+    private boolean isValidEmailFormat(String email) {
+        if (!email.contains("@")) {
+            return false;
+        }
         return true;
     }
 
-    private boolean isValidPassword(String password) {
-        // TODO:
+    private boolean isValidPasswordFromat(String password) {
+        if (password.length() < 6) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String __email = req.getParameter("email");
-        if (__email == null || !isValidEmail(__email)) {
+        if (__email == null || !isValidEmailFormat(__email)) {
             resp.getWriter().println("Wrong Login Info");
             return;
         }
         String __password = req.getParameter("password");
-        if (__password == null || !isValidPassword(__password)) {
+        if (__password == null || !isValidPasswordFromat(__password)) {
             resp.getWriter().println("Wrong Login Info");
             return;
         }
