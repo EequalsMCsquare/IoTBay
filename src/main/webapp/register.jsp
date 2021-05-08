@@ -114,16 +114,6 @@
                     <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone Number">
                 </div>
 
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <input type="text" id="address" name="address" class="form-control" placeholder="Address">
-                </div>
-
-                <div class="form-group">
-                    <label for="language">Language</label>
-                    <input type="text" id="language" name="language" class="form-control" placeholder="Prefer Language">
-                </div>
-
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
 
             </form>
