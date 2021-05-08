@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="iotbay_db" uuid="f4f96c4a-4489-4031-afd3-a9bd192f73a3">
-      <driver-ref>derby.embedded</driver-ref>
+    <data-source source="LOCAL" name="iotbay_db@47.95.118.206" uuid="519bcffb-a19c-4ded-acd2-2f2c9ef8d83e">
+      <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
-      <jdbc-url>jdbc:derby:$PROJECT_DIR$/db;create=true</jdbc-url>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://47.95.118.206:3306/iotbay_db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
