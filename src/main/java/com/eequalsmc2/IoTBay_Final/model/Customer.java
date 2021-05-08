@@ -1,6 +1,8 @@
 package com.eequalsmc2.IoTBay_Final.model;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Customer implements Serializable {
@@ -11,14 +13,35 @@ public class Customer implements Serializable {
     private String firstName;
     private String lastName;
     private String gender;
-    private Date dateOfBirth;
+    private Date dob;
     private String email;
-    private String phoneNumber;
-    private String address;
-    private String preferredLanguage;
-
+    private String phone;
+    private String[] address;
 
     public Customer() {
+    }
+
+    public Customer(String username, String password, String firstName, String lastName, String gender, Date dob, String email, String phoneNumber) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.dob = dob;
+        this.email = email;
+        this.phone = phoneNumber;
+    }
+
+    public Customer(String username, String password, String firstName, String lastName, String gender, String dob, String email, String phoneNumber) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.dob = sdf.parse(dob);
+        this.email = email;
+        this.phone = phoneNumber;
     }
 
     public int getId() {
@@ -69,12 +92,12 @@ public class Customer implements Serializable {
         this.gender = gender;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public Date getDob() {
+        return dob;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setDob(Date dateOfBirth) {
+        this.dob = dateOfBirth;
     }
 
     public String getEmail() {
@@ -85,43 +108,25 @@ public class Customer implements Serializable {
         this.email = email;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPreferredLanguage() {
-        return preferredLanguage;
-    }
-
-    public void setPreferredLanguage(String preferredLanguage) {
-        this.preferredLanguage = preferredLanguage;
+    public void setPhone(String phoneNumber) {
+        this.phone= phoneNumber;
     }
 
     @Override
     public String toString() {
         return "Customer{" +
-                "id=" + id +
                 ", username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", gender='" + gender + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
+                ", dateOfBirth=" + dob+
                 ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
+                ", phoneNumber='" + phone+ '\'' +
                 ", address='" + address + '\'' +
-                ", preferredLanguage='" + preferredLanguage + '\'' +
                 '}';
     }
 }

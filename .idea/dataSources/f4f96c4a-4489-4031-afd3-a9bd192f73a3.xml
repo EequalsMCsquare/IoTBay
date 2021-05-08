@@ -25,501 +25,515 @@
     <table id="20" parent="2" name="STAFF"/>
     <table id="21" parent="2" name="SUPPLIERS"/>
     <table id="22" parent="2" name="SUPPLIER_PRODUCTS"/>
-    <column id="23" parent="13" name="USERNAME">
-      <Position>1</Position>
-      <DataType>VARCHAR(64)|12s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="24" parent="13" name="FIRST_NAME">
-      <Position>2</Position>
-      <DataType>VARCHAR(32)|12s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="25" parent="13" name="LAST_NAME">
-      <Position>3</Position>
-      <DataType>VARCHAR(32)|12s</DataType>
-    </column>
-    <column id="26" parent="13" name="GENDER">
-      <Position>4</Position>
-      <DataType>VARCHAR(32)|12s</DataType>
-    </column>
-    <column id="27" parent="13" name="DOB">
-      <Position>5</Position>
-      <DataType>DATE|91s</DataType>
-    </column>
-    <column id="28" parent="13" name="EMAIL">
-      <Position>6</Position>
-      <DataType>VARCHAR(64)|12s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="29" parent="13" name="PHONE">
-      <Position>7</Position>
-      <DataType>VARCHAR(32)|12s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="30" parent="13" name="PASSWORD">
-      <Position>8</Position>
-      <DataType>VARCHAR(255)|12s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <index id="31" parent="13" name="CUSTOMER_USERNAME_UINDEX">
-      <ColNames>USERNAME</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <index id="32" parent="13" name="SQL0000000000-02910049-0179-3ce3-34d3-0000075849d0">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>USERNAME</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <index id="33" parent="13" name="CUSTOMER_EMAIL_UINDEX">
-      <ColNames>EMAIL</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <key id="34" parent="13" name="CUSTOMER_PK">
-      <ColNames>USERNAME</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <key id="35" parent="13" name="CUSTOMER_EMAIL_UINDEX">
-      <ColNames>EMAIL</ColNames>
-    </key>
-    <column id="36" parent="14" name="USERNAME">
-      <Position>1</Position>
-      <DataType>VARCHAR(64)|12s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="37" parent="14" name="PRIMARY_ADDRESS">
-      <Position>2</Position>
-      <DataType>VARCHAR(255)|12s</DataType>
-    </column>
-    <column id="38" parent="14" name="SECONDARY_ADDRESS">
-      <Position>3</Position>
-      <DataType>VARCHAR(255)|12s</DataType>
-    </column>
-    <column id="39" parent="14" name="THIRD_ADDRESS">
-      <Position>4</Position>
-      <DataType>VARCHAR(255)|12s</DataType>
-    </column>
-    <index id="40" parent="14" name="CUSTOMER_ADDRESS_USERNAME_UINDEX">
-      <ColNames>USERNAME</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <index id="41" parent="14" name="SQL0000000001-5e838074-0179-3ce3-34d3-0000075849d0">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>USERNAME</ColNames>
-    </index>
-    <key id="42" parent="14" name="CUSTOMER_ADDRESS_USERNAME_UINDEX">
-      <ColNames>USERNAME</ColNames>
-    </key>
-    <foreign-key id="43" parent="14" name="CUSTOMER_ADDRESS_CUSTOMER_USERNAME_FK">
-      <ColNames>USERNAME</ColNames>
-      <RefTableName>CUSTOMERS</RefTableName>
-      <RefKeyName>CUSTOMER_PK</RefKeyName>
-      <RefColNames>USERNAME</RefColNames>
-    </foreign-key>
-    <column id="44" parent="15" name="ORDER_ID">
+    <column id="23" parent="13" name="ID">
       <Position>1</Position>
       <DataType>INTEGER|4s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
       <DefaultExpression>AUTOINCREMENT: start 1 increment 1</DefaultExpression>
     </column>
-    <column id="45" parent="15" name="CUSTOMER_USERNAME">
+    <column id="24" parent="13" name="USERNAME">
+      <Position>2</Position>
+      <DataType>VARCHAR(32)|12s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="25" parent="13" name="FIRST_NAME">
+      <Position>3</Position>
+      <DataType>VARCHAR(32)|12s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="13" name="LAST_NAME">
+      <Position>4</Position>
+      <DataType>VARCHAR(32)|12s</DataType>
+    </column>
+    <column id="27" parent="13" name="GENDER">
+      <Position>5</Position>
+      <DataType>VARCHAR(32)|12s</DataType>
+    </column>
+    <column id="28" parent="13" name="DOB">
+      <Position>6</Position>
+      <DataType>DATE|91s</DataType>
+    </column>
+    <column id="29" parent="13" name="EMAIL">
+      <Position>7</Position>
+      <DataType>VARCHAR(64)|12s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="30" parent="13" name="PHONE">
+      <Position>8</Position>
+      <DataType>VARCHAR(32)|12s</DataType>
+    </column>
+    <column id="31" parent="13" name="PASSWORD">
+      <Position>9</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="32" parent="13" name="CUSTOMERS_ID_UINDEX">
+      <ColNames>ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="33" parent="13" name="SQL0000000000-57fd01a9-0179-4b4a-1a8b-0000075849e0">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="34" parent="13" name="CUSTOMERS_USERNAME_UINDEX">
+      <ColNames>USERNAME</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="35" parent="13" name="CUSTOMERS_EMAIL_UINDEX">
+      <ColNames>EMAIL</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="36" parent="13" name="CUSTOMERS_PHONE_UINDEX">
+      <ColNames>PHONE</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="37" parent="13" name="CUSTOMERS_PK">
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="38" parent="13" name="CUSTOMERS_USERNAME_UINDEX">
+      <ColNames>USERNAME</ColNames>
+    </key>
+    <key id="39" parent="13" name="CUSTOMERS_EMAIL_UINDEX">
+      <ColNames>EMAIL</ColNames>
+    </key>
+    <key id="40" parent="13" name="CUSTOMERS_PHONE_UINDEX">
+      <ColNames>PHONE</ColNames>
+    </key>
+    <column id="41" parent="14" name="ID">
+      <Position>1</Position>
+      <DataType>INTEGER|4s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+      <DefaultExpression>AUTOINCREMENT: start 1 increment 1</DefaultExpression>
+    </column>
+    <column id="42" parent="14" name="CUSTOMER_ID">
+      <Position>2</Position>
+      <DataType>INTEGER|4s</DataType>
+    </column>
+    <column id="43" parent="14" name="ADDRESS">
+      <Position>3</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+    </column>
+    <index id="44" parent="14" name="CUSTOMER_ADDRESS_ID_UINDEX">
+      <ColNames>ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="45" parent="14" name="SQL0000000002-0df481ec-0179-4b4a-1a8b-0000075849e0">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="46" parent="14" name="SQL0000000001-f0bc01e1-0179-4b4a-1a8b-0000075849e0">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>CUSTOMER_ID</ColNames>
+    </index>
+    <key id="47" parent="14" name="CUSTOMER_ADDRESS_PK">
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="48" parent="14" name="CUSTOMER_ADDRESS_CUSTOMERS_ID_FK">
+      <ColNames>CUSTOMER_ID</ColNames>
+      <RefTableName>CUSTOMERS</RefTableName>
+      <RefKeyName>CUSTOMERS_PK</RefKeyName>
+      <RefColNames>ID</RefColNames>
+    </foreign-key>
+    <column id="49" parent="15" name="ORDER_ID">
+      <Position>1</Position>
+      <DataType>INTEGER|4s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+      <DefaultExpression>AUTOINCREMENT: start 1 increment 1</DefaultExpression>
+    </column>
+    <column id="50" parent="15" name="CUSTOMER_USERNAME">
       <Position>2</Position>
       <DataType>VARCHAR(64)|12s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="46" parent="15" name="ORDER_ITEMS_ID">
+    <column id="51" parent="15" name="ORDER_ITEMS_ID">
       <Position>3</Position>
       <DataType>INTEGER|4s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="47" parent="15" name="TOTAL_PRICE">
+    <column id="52" parent="15" name="TOTAL_PRICE">
       <Position>4</Position>
       <DataType>DOUBLE|8s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="48" parent="15" name="ORDER_DATE">
+    <column id="53" parent="15" name="ORDER_DATE">
       <Position>5</Position>
       <DataType>DATE|91s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="49" parent="15" name="STATUS">
+    <column id="54" parent="15" name="STATUS">
       <Position>6</Position>
       <DataType>INTEGER|4s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="50" parent="15" name="SHIPMENT_ID">
+    <column id="55" parent="15" name="SHIPMENT_ID">
       <Position>7</Position>
       <DataType>INTEGER|4s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="51" parent="15" name="ORDER_ORDER_ID_UINDEX">
+    <index id="56" parent="15" name="ORDER_ORDER_ID_UINDEX">
       <ColNames>ORDER_ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="52" parent="15" name="SQL0000000012-19a781ad-0179-3ce3-34d3-0000075849d0">
+    <index id="57" parent="15" name="SQL0000000012-19a781ad-0179-3ce3-34d3-0000075849d0">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ORDER_ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="53" parent="15" name="SQL0000000010-b3e4419f-0179-3ce3-34d3-0000075849d0">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>CUSTOMER_USERNAME</ColNames>
-    </index>
-    <index id="54" parent="15" name="SQL0000000011-d4b401a1-0179-3ce3-34d3-0000075849d0">
+    <index id="58" parent="15" name="SQL0000000011-d4b401a1-0179-3ce3-34d3-0000075849d0">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ORDER_ITEMS_ID</ColNames>
     </index>
-    <key id="55" parent="15" name="ORDER_PK">
+    <key id="59" parent="15" name="ORDER_PK">
       <ColNames>ORDER_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="56" parent="15" name="ORDER_CUSTOMERS_USERNAME_FK">
-      <ColNames>CUSTOMER_USERNAME</ColNames>
-      <RefTableName>CUSTOMERS</RefTableName>
-      <RefKeyName>CUSTOMER_PK</RefKeyName>
-      <RefColNames>USERNAME</RefColNames>
-    </foreign-key>
-    <foreign-key id="57" parent="15" name="ORDER_ORDER_ITEMS_ORDER_ITEMS_ID_FK">
+    <foreign-key id="60" parent="15" name="ORDER_ORDER_ITEMS_ORDER_ITEMS_ID_FK">
       <ColNames>ORDER_ITEMS_ID</ColNames>
       <RefTableName>ORDER_ITEMS</RefTableName>
       <RefKeyName>ORDER_ITEMS_PK</RefKeyName>
       <RefColNames>ORDER_ITEMS_ID</RefColNames>
     </foreign-key>
-    <column id="58" parent="16" name="ORDER_ITEMS_ID">
+    <column id="61" parent="16" name="ORDER_ITEMS_ID">
       <Position>1</Position>
       <DataType>INTEGER|4s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
       <DefaultExpression>AUTOINCREMENT: start 1 increment 1</DefaultExpression>
     </column>
-    <column id="59" parent="16" name="PRODUCT_ID">
+    <column id="62" parent="16" name="PRODUCT_ID">
       <Position>2</Position>
       <DataType>INTEGER|4s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="60" parent="16" name="COUNT">
+    <column id="63" parent="16" name="COUNT">
       <Position>3</Position>
       <DataType>INTEGER|4s</DataType>
       <DefaultExpression>1</DefaultExpression>
     </column>
-    <index id="61" parent="16" name="ORDER_ITEMS_ORDER_ITEMS_ID_UINDEX">
+    <index id="64" parent="16" name="ORDER_ITEMS_ORDER_ITEMS_ID_UINDEX">
       <ColNames>ORDER_ITEMS_ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="62" parent="16" name="SQL0000000005-5555c14b-0179-3ce3-34d3-0000075849d0">
+    <index id="65" parent="16" name="SQL0000000005-5555c14b-0179-3ce3-34d3-0000075849d0">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ORDER_ITEMS_ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="63" parent="16" name="SQL0000000004-9188413f-0179-3ce3-34d3-0000075849d0">
+    <index id="66" parent="16" name="SQL0000000004-9188413f-0179-3ce3-34d3-0000075849d0">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>PRODUCT_ID</ColNames>
     </index>
-    <key id="64" parent="16" name="ORDER_ITEMS_PK">
+    <key id="67" parent="16" name="ORDER_ITEMS_PK">
       <ColNames>ORDER_ITEMS_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="65" parent="16" name="ORDER_ITEMS_PRODUCTS_PRODUCT_ID_FK">
+    <foreign-key id="68" parent="16" name="ORDER_ITEMS_PRODUCTS_PRODUCT_ID_FK">
       <ColNames>PRODUCT_ID</ColNames>
       <RefTableName>PRODUCTS</RefTableName>
       <RefKeyName>PRODUCTS_PK</RefKeyName>
       <RefColNames>PRODUCT_ID</RefColNames>
     </foreign-key>
-    <column id="66" parent="17" name="PAYMENT_ID">
+    <column id="69" parent="17" name="PAYMENT_ID">
       <Position>1</Position>
       <DataType>INTEGER|4s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
       <DefaultExpression>AUTOINCREMENT: start 1 increment 1</DefaultExpression>
     </column>
-    <column id="67" parent="17" name="ORDER_ID">
+    <column id="70" parent="17" name="ORDER_ID">
       <Position>2</Position>
       <DataType>INTEGER|4s</DataType>
     </column>
-    <column id="68" parent="17" name="AMOUNT">
+    <column id="71" parent="17" name="AMOUNT">
       <Position>3</Position>
       <DataType>DOUBLE|8s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="69" parent="17" name="PAYMENT_TYPE">
+    <column id="72" parent="17" name="PAYMENT_TYPE">
       <Position>4</Position>
       <DataType>INTEGER|4s</DataType>
     </column>
-    <column id="70" parent="17" name="STATUS">
+    <column id="73" parent="17" name="STATUS">
       <Position>5</Position>
       <DataType>INTEGER|4s</DataType>
     </column>
-    <column id="71" parent="17" name="DATE">
+    <column id="74" parent="17" name="DATE">
       <Position>6</Position>
       <DataType>DATE|91s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="72" parent="17" name="PAYMENTS_PAYMENT_ID_UINDEX">
+    <index id="75" parent="17" name="PAYMENTS_PAYMENT_ID_UINDEX">
       <ColNames>PAYMENT_ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="73" parent="17" name="SQL0000000003-ac3880cc-0179-4726-ec74-000007509ad8">
+    <index id="76" parent="17" name="SQL0000000003-ac3880cc-0179-4726-ec74-000007509ad8">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>PAYMENT_ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="74" parent="17" name="SQL0000000002-71b840bf-0179-4726-ec74-000007509ad8">
+    <index id="77" parent="17" name="SQL0000000002-71b840bf-0179-4726-ec74-000007509ad8">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ORDER_ID</ColNames>
     </index>
-    <key id="75" parent="17" name="PAYMENTS_PK">
+    <key id="78" parent="17" name="PAYMENTS_PK">
       <ColNames>PAYMENT_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="76" parent="17" name="PAYMENTS_ORDER_ORDER_ID_FK">
+    <foreign-key id="79" parent="17" name="PAYMENTS_ORDER_ORDER_ID_FK">
       <ColNames>ORDER_ID</ColNames>
       <RefTableName>ORDERS</RefTableName>
       <RefKeyName>ORDER_PK</RefKeyName>
       <RefColNames>ORDER_ID</RefColNames>
     </foreign-key>
-    <column id="77" parent="18" name="PRODUCT_ID">
+    <column id="80" parent="18" name="PRODUCT_ID">
       <Position>1</Position>
       <DataType>INTEGER|4s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
       <DefaultExpression>AUTOINCREMENT: start 1 increment 1</DefaultExpression>
     </column>
-    <column id="78" parent="18" name="NAME">
+    <column id="81" parent="18" name="NAME">
       <Position>2</Position>
       <DataType>VARCHAR(64)|12s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="79" parent="18" name="DESCRIPTION">
+    <column id="82" parent="18" name="DESCRIPTION">
       <Position>3</Position>
       <DataType>VARCHAR(255)|12s</DataType>
     </column>
-    <column id="80" parent="18" name="ORIGINAL_PRICE">
+    <column id="83" parent="18" name="ORIGINAL_PRICE">
       <Position>4</Position>
       <DataType>DOUBLE|8s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="81" parent="18" name="DISCOUNT">
+    <column id="84" parent="18" name="DISCOUNT">
       <Position>5</Position>
       <DataType>DOUBLE|8s</DataType>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <column id="82" parent="18" name="COST">
+    <column id="85" parent="18" name="COST">
       <Position>6</Position>
       <DataType>DOUBLE|8s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="83" parent="18" name="STOCK">
+    <column id="86" parent="18" name="STOCK">
       <Position>7</Position>
       <DataType>INTEGER|4s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="84" parent="18" name="PRODUCT_CATEGORY">
+    <column id="87" parent="18" name="PRODUCT_CATEGORY">
       <Position>8</Position>
       <DataType>INTEGER|4s</DataType>
     </column>
-    <index id="85" parent="18" name="PRODUCTS_PRODUCT_ID_UINDEX">
+    <index id="88" parent="18" name="PRODUCTS_PRODUCT_ID_UINDEX">
       <ColNames>PRODUCT_ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="86" parent="18" name="SQL0000000003-8d99c116-0179-3ce3-34d3-0000075849d0">
+    <index id="89" parent="18" name="SQL0000000003-8d99c116-0179-3ce3-34d3-0000075849d0">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>PRODUCT_ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="87" parent="18" name="SQL0000000001-b1c6c08e-0179-4726-ec74-000007509ad8">
+    <index id="90" parent="18" name="SQL0000000001-b1c6c08e-0179-4726-ec74-000007509ad8">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>PRODUCT_CATEGORY</ColNames>
     </index>
-    <key id="88" parent="18" name="PRODUCTS_PK">
+    <key id="91" parent="18" name="PRODUCTS_PK">
       <ColNames>PRODUCT_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="89" parent="18" name="PRODUCTS_PRODUCT_CATEGORIES_CATEGORY_ID_FK">
+    <foreign-key id="92" parent="18" name="PRODUCTS_PRODUCT_CATEGORIES_CATEGORY_ID_FK">
       <ColNames>PRODUCT_CATEGORY</ColNames>
       <RefTableName>PRODUCT_CATEGORIES</RefTableName>
       <RefKeyName>PRODUCT_CATEGORIES_PK</RefKeyName>
       <RefColNames>CATEGORY_ID</RefColNames>
     </foreign-key>
-    <column id="90" parent="19" name="CATEGORY_ID">
+    <column id="93" parent="19" name="CATEGORY_ID">
       <Position>1</Position>
       <DataType>INTEGER|4s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
       <DefaultExpression>AUTOINCREMENT: start 1 increment 1</DefaultExpression>
     </column>
-    <column id="91" parent="19" name="CATEGORY_NAME">
+    <column id="94" parent="19" name="CATEGORY_NAME">
       <Position>2</Position>
       <DataType>VARCHAR(32)|12s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="92" parent="19" name="PRODUCT_CATEGORIES_CATEGORY_ID_UINDEX">
+    <index id="95" parent="19" name="PRODUCT_CATEGORIES_CATEGORY_ID_UINDEX">
       <ColNames>CATEGORY_ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="93" parent="19" name="SQL0000000000-e0b94027-0179-4726-ec74-000007509ad8">
+    <index id="96" parent="19" name="SQL0000000000-e0b94027-0179-4726-ec74-000007509ad8">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>CATEGORY_ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="94" parent="19" name="PRODUCT_CATEGORIES_CATEGORY_NAME_UINDEX">
+    <index id="97" parent="19" name="PRODUCT_CATEGORIES_CATEGORY_NAME_UINDEX">
       <ColNames>CATEGORY_NAME</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="95" parent="19" name="PRODUCT_CATEGORIES_PK">
+    <key id="98" parent="19" name="PRODUCT_CATEGORIES_PK">
       <ColNames>CATEGORY_ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="96" parent="19" name="PRODUCT_CATEGORIES_CATEGORY_NAME_UINDEX">
+    <key id="99" parent="19" name="PRODUCT_CATEGORIES_CATEGORY_NAME_UINDEX">
       <ColNames>CATEGORY_NAME</ColNames>
     </key>
-    <column id="97" parent="20" name="EMAIL">
+    <column id="100" parent="20" name="EMAIL">
       <Position>1</Position>
       <DataType>VARCHAR(64)|12s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="98" parent="20" name="PASSWORD">
+    <column id="101" parent="20" name="PASSWORD">
       <Position>2</Position>
       <DataType>VARCHAR(255)|12s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="99" parent="20" name="FIRST_NAME">
+    <column id="102" parent="20" name="FIRST_NAME">
       <Position>3</Position>
       <DataType>VARCHAR(32)|12s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="100" parent="20" name="LAST_NAME">
+    <column id="103" parent="20" name="LAST_NAME">
       <Position>4</Position>
       <DataType>VARCHAR(32)|12s</DataType>
     </column>
-    <column id="101" parent="20" name="PHONE">
+    <column id="104" parent="20" name="PHONE">
       <Position>5</Position>
       <DataType>VARCHAR(32)|12s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="102" parent="20" name="GENDER">
+    <column id="105" parent="20" name="GENDER">
       <Position>6</Position>
       <DataType>VARCHAR(32)|12s</DataType>
     </column>
-    <column id="103" parent="20" name="DOB">
+    <column id="106" parent="20" name="DOB">
       <Position>7</Position>
       <DataType>DATE|91s</DataType>
     </column>
-    <column id="104" parent="20" name="PRIVILEGE">
+    <column id="107" parent="20" name="PRIVILEGE">
       <Position>8</Position>
       <DataType>INTEGER|4s</DataType>
       <DefaultExpression>1</DefaultExpression>
     </column>
-    <index id="105" parent="20" name="MANAGERS_EMAIL_UINDEX">
+    <index id="108" parent="20" name="MANAGERS_EMAIL_UINDEX">
       <ColNames>EMAIL</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="106" parent="20" name="SQL0000000002-52da80c5-0179-3ce3-34d3-0000075849d0">
+    <index id="109" parent="20" name="SQL0000000002-52da80c5-0179-3ce3-34d3-0000075849d0">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>EMAIL</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="107" parent="20" name="MANAGERS_PHONE_UINDEX">
+    <index id="110" parent="20" name="MANAGERS_PHONE_UINDEX">
       <ColNames>PHONE</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="108" parent="20" name="MANAGERS_PK">
+    <key id="111" parent="20" name="MANAGERS_PK">
       <ColNames>EMAIL</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="109" parent="20" name="MANAGERS_PHONE_UINDEX">
+    <key id="112" parent="20" name="MANAGERS_PHONE_UINDEX">
       <ColNames>PHONE</ColNames>
     </key>
-    <column id="110" parent="21" name="ID">
+    <column id="113" parent="21" name="ID">
       <Position>1</Position>
       <DataType>INTEGER|4s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
       <DefaultExpression>AUTOINCREMENT: start 1 increment 1</DefaultExpression>
     </column>
-    <column id="111" parent="21" name="NAME">
+    <column id="114" parent="21" name="NAME">
       <Position>2</Position>
       <DataType>VARCHAR(64)|12s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="112" parent="21" name="PHONE">
+    <column id="115" parent="21" name="PHONE">
       <Position>3</Position>
       <DataType>VARCHAR(32)|12s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="113" parent="21" name="EMAIL">
+    <column id="116" parent="21" name="EMAIL">
       <Position>4</Position>
       <DataType>VARCHAR(64)|12s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="114" parent="21" name="SQL0000000005-15b58164-0179-4726-ec74-000007509ad8">
+    <index id="117" parent="21" name="SQL0000000005-15b58164-0179-4726-ec74-000007509ad8">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="115" parent="21" name="SUPPLIERS_ID_UINDEX">
+    <index id="118" parent="21" name="SUPPLIERS_ID_UINDEX">
       <ColNames>ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="116" parent="21" name="SUPPLIERS_NAME_UINDEX">
+    <index id="119" parent="21" name="SUPPLIERS_NAME_UINDEX">
       <ColNames>NAME</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="117" parent="21" name="SUPPLIERS_PK">
+    <key id="120" parent="21" name="SUPPLIERS_PK">
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="118" parent="21" name="SUPPLIERS_NAME_UINDEX">
+    <key id="121" parent="21" name="SUPPLIERS_NAME_UINDEX">
       <ColNames>NAME</ColNames>
     </key>
-    <column id="119" parent="22" name="ID">
+    <column id="122" parent="22" name="ID">
       <Position>1</Position>
       <DataType>INTEGER|4s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
       <DefaultExpression>AUTOINCREMENT: start 1 increment 1</DefaultExpression>
     </column>
-    <column id="120" parent="22" name="SUPPLIER_ID">
+    <column id="123" parent="22" name="SUPPLIER_ID">
       <Position>2</Position>
       <DataType>INTEGER|4s</DataType>
     </column>
-    <column id="121" parent="22" name="PRODUCT_ID">
+    <column id="124" parent="22" name="PRODUCT_ID">
       <Position>3</Position>
       <DataType>INTEGER|4s</DataType>
     </column>
-    <column id="122" parent="22" name="COST">
+    <column id="125" parent="22" name="COST">
       <Position>4</Position>
       <DataType>DOUBLE|8s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="123" parent="22" name="SQL0000000004-a8a40121-0179-4726-ec74-000007509ad8">
+    <index id="126" parent="22" name="SQL0000000004-a8a40121-0179-4726-ec74-000007509ad8">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="124" parent="22" name="SUPPLIER_PRODUCT_ID_UINDEX">
+    <index id="127" parent="22" name="SUPPLIER_PRODUCT_ID_UINDEX">
       <ColNames>ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="125" parent="22" name="SQL0000000007-57fd01a9-0179-4726-ec74-000007509ad8">
+    <index id="128" parent="22" name="SQL0000000007-57fd01a9-0179-4726-ec74-000007509ad8">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>SUPPLIER_ID</ColNames>
     </index>
-    <index id="126" parent="22" name="SQL0000000006-2ded81a4-0179-4726-ec74-000007509ad8">
+    <index id="129" parent="22" name="SQL0000000006-2ded81a4-0179-4726-ec74-000007509ad8">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>PRODUCT_ID</ColNames>
     </index>
-    <key id="127" parent="22" name="SUPPLIER_PRODUCT_PK">
+    <key id="130" parent="22" name="SUPPLIER_PRODUCT_PK">
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="128" parent="22" name="SUPPLIER_PRODUCT_SUPPLIERS_ID_FK">
+    <foreign-key id="131" parent="22" name="SUPPLIER_PRODUCT_SUPPLIERS_ID_FK">
       <ColNames>SUPPLIER_ID</ColNames>
       <RefTableName>SUPPLIERS</RefTableName>
       <RefKeyName>SUPPLIERS_PK</RefKeyName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <foreign-key id="129" parent="22" name="SUPPLIER_PRODUCT_PRODUCTS_PRODUCT_ID_FK">
+    <foreign-key id="132" parent="22" name="SUPPLIER_PRODUCT_PRODUCTS_PRODUCT_ID_FK">
       <ColNames>PRODUCT_ID</ColNames>
       <RefTableName>PRODUCTS</RefTableName>
       <RefKeyName>PRODUCTS_PK</RefKeyName>

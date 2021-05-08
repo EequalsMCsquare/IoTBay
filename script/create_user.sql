@@ -1,35 +1,28 @@
-create table customer
+create table CUSTOMERS
 (
-    username varchar(64) not null,
+    id int generated always as identity,
+    username varchar(32) not null,
     first_name varchar(32) not null,
     last_name varchar(32),
     gender varchar(32),
-    dob date,
+    dob DATE,
     email varchar(64) not null,
-    phone varchar(32) not null,
+    phone varchar(32),
     password varchar(255) not null
 );
 
-create unique index CUSTOMER_EMAIL_UINDEX
-	on CUSTOMERS (email);
+create unique index CUSTOMERS_EMAIL_UINDEX
+    on CUSTOMERS (email);
 
-create unique index CUSTOMER_USERNAME_UINDEX
-	on CUSTOMERS (username);
+create unique index CUSTOMERS_ID_UINDEX
+    on CUSTOMERS (id);
+
+create unique index CUSTOMERS_PHONE_UINDEX
+    on CUSTOMERS (phone);
+
+create unique index CUSTOMERS_USERNAME_UINDEX
+    on CUSTOMERS (username);
 
 alter table CUSTOMERS
-    add constraint CUSTOMER_PK
-        primary key (username);
-
-
-create table customer_address
-(
-    username varchar(64) not null
-        constraint CUSTOMER_ADDRESS_CUSTOMER_USERNAME_FK
-            references CUSTOMERS,
-    primary_address varchar(255),
-    secondary_address varchar(255),
-    third_address varchar(255)
-);
-
-create unique index CUSTOMER_ADDRESS_USERNAME_UINDEX
-    on customer_address (username);
+    add constraint CUSTOMERS_PK
+        primary key (id);
