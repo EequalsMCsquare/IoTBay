@@ -4,6 +4,7 @@ import com.eequalsmc2.IoTBay_Final.model.Customer;
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 public class CustomerManager {
@@ -15,67 +16,66 @@ public class CustomerManager {
     }
 
     public void create(Customer customer) throws SQLException {
-        Statement st = conn.createStatement();
-        String columns = "INSERT INTO APP.CUSTOMERS (USERNAME, FIRST_NAME, LAST_NAME, GENDER, DOB, EMAIL, PHONE, PASSWORD)";
-        String values = String.format("VALUES(%s, %s, %s, %s, %s, %s, %s, %s)",
-                customer.getUsername(), customer.getFirstName(),
-                customer.getLastName(), customer.getGender(),
-                customer.getDob(), customer.getEmail(),
-                customer.getPhone(), customer.getPassword());
-        st.executeUpdate(columns + values);
-    }
-
-    public void create(String username, String password, String firstName, String lastName, String gender, String dob, String email, String phoneNumber) throws SQLException {
-        Statement st = conn.createStatement();
-        String columns = "INSERT INTO APP.CUSTOMERS (USERNAME, FIRST_NAME, LAST_NAME, GENDER, DOB, EMAIL, PHONE, PASSWORD)";
-        String values = String.format("VALUES(%s, %s, %s, %s, %s, %s, %s, %s)",
-                username, firstName, lastName,
-                gender, dob, email, phoneNumber,
-                password);
-        st.executeUpdate(columns + values);
+        String sql = "INSERT INTO customers (email, first_name, last_name, gender, dob, phone, password) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?);";
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setString(1, customer.getEmail());
+        st.setString(2, customer.getFirstName());
+        st.setString(3, customer.getLastName());
+        st.setString(4, customer.getGender());
+        st.setDate(5, new Date(customer.getDob().getTime()));
+        st.setString(6, customer.getPhone());
+        st.setString(7, customer.getPassword());
+        st.execute();
     }
 
     public void update(Customer customer) throws SQLException {
-        String sql = "UPDATE 'CUSTOMERS' SET 'first_name' = ?, 'last_name' = ?, gender = ?, dob = ?, email = ?, phone = ?, password = ? WHERE username = ?";
+        String sql = "UPDATE customers SET 'first_name' = ?, 'last_name' = ?, gender = ?, dob = ?, phone = ?, password = ? WHERE email = ?";
         PreparedStatement st = conn.prepareStatement(sql);
         st.setString(1, customer.getFirstName());
         st.setString(2, customer.getLastName());
         st.setString(3, customer.getGender());
-        st.setDate(4, (Date)customer.getDob());
-        st.setString(5, customer.getEmail());
-        st.setString(6, customer.getPhone());
-        st.setString(7, customer.getPassword());
-        st.setString(8, customer.getUsername());
+        st.setDate(4, new Date(customer.getDob().getTime()));
+        st.setString(5, customer.getPhone());
+        st.setString(6, customer.getPassword());
+        st.setString(7, customer.getEmail());
         st.execute();
     }
 
-    public void delete(String username) throws SQLException {
-        String sql = "DELETE FROM CUSTOMERS WHERE username = ?";
+    public void delete(String email) throws SQLException {
+        String sql = "DELETE FROM customers WHERE email = ?";
         PreparedStatement st = conn.prepareStatement(sql);
-        st.setString(1, username);
+        st.setString(1, email);
         st.execute();
     }
 
-    public Customer get(String username) throws SQLException {
+    public Customer get(String email) throws SQLException {
         Customer customer;
-        String sql = "SELECT * FROM CUSTOMERS WHERE 'username' = ?";
+        String sql = "SELECT * FROM customers WHERE email = ?";
         PreparedStatement st = conn.prepareStatement(sql);
-        st.setString(1, username);
+        st.setString(1, email);
         ResultSet rs = st.executeQuery();
         if (rs.next()) {
             customer = new Customer();
             customer.setId(rs.getInt("id"));
-            customer.setUsername(username);
+            customer.setEmail(email);
             customer.setFirstName(rs.getString("first_name"));
             customer.setLastName(rs.getString("last_name"));
             customer.setGender(rs.getString("gender"));
-            customer.setEmail(rs.getString("email"));
-            customer.setDob(rs.getDate("dob"));
+            customer.setDob( new java.util.Date(rs.getDate("dob").getTime()));
             customer.setPhone(rs.getString("phone"));
             customer.setPassword(rs.getString("password"));
 
-            // TODO: Address
-
+            // Address
+            sql = "SELECT address FROM customer_address WHERE customer_id = ?";
+            st = conn.prepareStatement(sql);
+            st.setInt(1, customer.getId());
+            rs = st.executeQuery();
+            int i = 0;
+            while (rs.next() && i < 3) {
+                customer.addAddress(rs.getString("address"));
+                i++;
+            }
             return customer;
         }
         return null;

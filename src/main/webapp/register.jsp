@@ -70,8 +70,8 @@
             <form class="register-form" action="registerServlet" method="post">
 
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Email">
                 </div>
 
                 <div class="form-group">
@@ -102,11 +102,6 @@
                 <div class="form-group">
                     <label for="dob">Date Of Birth</label>
                     <input type="date" id="dob" name="dob" class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Email">
                 </div>
 
                 <div class="form-group">
