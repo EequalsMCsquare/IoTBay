@@ -20,8 +20,7 @@ public class TestCustomerManager {
 
     public TestCustomerManager() throws ClassNotFoundException, SQLException {
         db = new DB();
-        conn = db.connection();
-        mgr = new CustomerManager(conn);
+        mgr = new CustomerManager(db);
     }
 
     private void testCreate() throws SQLException, ParseException {

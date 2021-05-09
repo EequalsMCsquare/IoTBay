@@ -64,7 +64,7 @@
     <div class="row">
         <div class="col-5"></div>
         <div class="col-2">
-            <form  class="form-login" method="post" action="loginServlet" style="position: fixed; top: 50%; transform: translate(0%, -50%);">
+            <form  class="form-login" method="post" action="customerServlet?action=login" style="position: fixed; top: 50%; transform: translate(0%, -50%);">
                 <h1 class="h3 mb-3 font-weight-normal">Welcome! Please sign in</h1>
                 <label for="inputEmail" class="sr-only">Email address</label>
                 <input type="email" name="email" id="inputEmail" class="form-control" style="  position: relative;

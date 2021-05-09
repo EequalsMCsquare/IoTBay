@@ -32,9 +32,6 @@
         }
     </style>
 
-
-    <!-- Custom styles for this template -->
-    <link href="static/css/album.css" rel="stylesheet">
 </head>
 <body>
 

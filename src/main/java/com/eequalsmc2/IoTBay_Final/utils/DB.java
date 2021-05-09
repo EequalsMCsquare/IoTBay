@@ -24,7 +24,11 @@ public class DB {
         this.conn = DriverManager.getConnection(URL+db, dbUser, dbPassword);
     }
 
-    public Connection connection() {
+    public Connection connection() throws SQLException {
+        if(!this.conn.isClosed()) {
+            return this.conn;
+        }
+        this.conn = DriverManager.getConnection(URL+db, dbUser, dbPassword);
         return this.conn;
     }
 
