@@ -27,6 +27,7 @@
         response.sendRedirect("login.jsp");
     }
 %>
+
 <body>
 <header>
     <div class="navbar navbar-dark bg-dark shadow-sm">
