@@ -26,7 +26,8 @@ public class LoginController extends HttpServlet {
         mgr = new CustomerManager(db.connection());
     }
 
-    private boolean isValidUsername(String username) {
+
+    private boolean isValidEmail(String email) {
         // TODO:
         return true;
     }
@@ -38,8 +39,8 @@ public class LoginController extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String __username = req.getParameter("username");
-        if (__username == null || !isValidUsername(__username)) {
+        String __email = req.getParameter("email");
+        if (__email == null || !isValidEmail(__email)) {
             resp.getWriter().println("Wrong Login Info");
             return;
         }
@@ -50,7 +51,7 @@ public class LoginController extends HttpServlet {
         }
         Customer user = null;
         try {
-            user = mgr.get(__username);
+            user = mgr.get(__email);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -58,7 +59,7 @@ public class LoginController extends HttpServlet {
             resp.getWriter().println("Wrong Login Info");
             return;
         }
-        if (user.getPassword() != __password) {
+        if (!user.getPassword().equals(__password)) {
             resp.getWriter().println("Wrong Login Info");
             return;
         }
