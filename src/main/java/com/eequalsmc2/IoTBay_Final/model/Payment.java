@@ -9,6 +9,15 @@ public class Payment {
     private String status;
     private Date date;
     private CreditCard card;
+    private int paymentDetailId;
+
+    public int getPaymentDetailId() {
+        return paymentDetailId;
+    }
+
+    public void setPaymentDetailId(int paymentDetailId) {
+        this.paymentDetailId = paymentDetailId;
+    }
 
     public CreditCard getCard() {
         return card;
@@ -25,9 +34,9 @@ public class Payment {
         this.status = status;
         this.date = date;
         this.card=card;
-
     }
 
+    public Payment(){}
     public int getId() {
         return id;
     }
