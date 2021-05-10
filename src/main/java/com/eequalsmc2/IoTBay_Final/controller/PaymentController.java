@@ -18,6 +18,7 @@ import java.util.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 @WebServlet("/paymentServlet")
 public class PaymentController extends HttpServlet {
@@ -68,6 +69,14 @@ public class PaymentController extends HttpServlet {
                     throwable.printStackTrace();
                 }
                 break;
+            case "history":
+                try {
+                    viewHistory(req,resp);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
         }
     }
 
@@ -81,8 +90,6 @@ public class PaymentController extends HttpServlet {
         int customerId = customer.getId();
         int pd_id = pdm.create(card, customerId);
 
-
-
         Payment payment=new Payment();
         payment.setCard(card);
         payment.setStatus("pending");
@@ -90,7 +97,6 @@ public class PaymentController extends HttpServlet {
         payment.setOrder_id(Integer.parseInt(req.getParameter("orderId")));
         payment.setPaymentDetailId(pd_id);
         payment.setAmount(9.99f);
-
 
         pm.create(payment);
 
@@ -128,5 +134,10 @@ public class PaymentController extends HttpServlet {
     protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         int id = Integer.parseInt(req.getParameter("id"));
         pm.delete(id);
+    }
+
+    protected void viewHistory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ParseException, SQLException {
+        List<Payment> paymentList=pm.getHistory();
+        req.getSession().setAttribute("paymentList",paymentList);
     }
 }

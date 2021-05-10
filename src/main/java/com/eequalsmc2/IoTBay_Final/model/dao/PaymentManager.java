@@ -3,6 +3,8 @@ package com.eequalsmc2.IoTBay_Final.model.dao;
 import com.eequalsmc2.IoTBay_Final.model.Payment;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PaymentManager {
     private Connection conn;
@@ -67,4 +69,24 @@ public class PaymentManager {
         preparedStatement.execute();
     }
 
+    public List<Payment> getHistory() throws SQLException {
+        String SQL="select * from payments";
+        PreparedStatement preparedStatement=conn.prepareStatement(SQL);
+
+        ResultSet rs=preparedStatement.executeQuery();
+
+        List<Payment> paymentList=new LinkedList<>();
+        while(rs.next()){
+            Payment payment=new Payment();
+            payment.setId(rs.getInt("id"));
+            payment.setAmount(rs.getFloat("amount"));
+            payment.setDate(rs.getDate("date"));
+            payment.setStatus(rs.getString("status"));
+            payment.setOrder_id(rs.getInt("order_id"));
+            payment.setCard(pdm.get(rs.getInt("payment_detail_id")));
+            payment.setPaymentDetailId(rs.getInt("payment_detail_id"));
+            paymentList.add(payment);
+        }
+        return paymentList;
+    }
 }
