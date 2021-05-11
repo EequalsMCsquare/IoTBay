@@ -1,6 +1,7 @@
 package com.eequalsmc2.IoTBay_Final.controller;
 
 import com.eequalsmc2.IoTBay_Final.model.Customer;
+import com.eequalsmc2.IoTBay_Final.model.dao.CustomerAccessManager;
 import com.eequalsmc2.IoTBay_Final.model.dao.CustomerManager;
 import com.eequalsmc2.IoTBay_Final.utils.DB;
 
@@ -13,17 +14,19 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @WebServlet("/customerServlet")
 public class CustomerController extends HttpServlet {
     DB db;
-    CustomerManager mgr;
+    CustomerManager manager;
+    CustomerAccessManager accessManager;
     SimpleDateFormat sdf;
 
     public CustomerController() throws SQLException {
         super();
         db = new DB();
-        mgr = new CustomerManager(db);
+        manager = new CustomerManager(db);
         sdf = new SimpleDateFormat("yyyy-MM-dd");
     }
 
@@ -47,7 +50,7 @@ public class CustomerController extends HttpServlet {
         Customer user = (Customer) req.getSession().getAttribute("user");
         req.getSession().removeAttribute("user");
         try {
-            mgr.delete(user.getId());
+            manager.delete(user.getId());
         } catch (SQLException e) {
             resp.getWriter().println("fail to delete user!");
         }
@@ -67,7 +70,7 @@ public class CustomerController extends HttpServlet {
         }
         Customer user = null;
         try {
-            user = mgr.get(__email);
+            user = manager.get(__email);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -80,11 +83,18 @@ public class CustomerController extends HttpServlet {
             return;
         }
         req.getSession().setAttribute("user", user);
+        // update access log
+        try {
+            accessManager.create(user.getId(), "login");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         resp.sendRedirect("index.jsp");
     }
 
     private void handleRegister(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Customer customer = new Customer();
+        int pk = 0;
         customer.setEmail(req.getParameter("email"));
         customer.setPassword(req.getParameter("password"));
         customer.setFirstName(req.getParameter("firstName"));
@@ -97,12 +107,13 @@ public class CustomerController extends HttpServlet {
             e.printStackTrace();
         }
         try {
-            mgr.create(customer);
+            pk = manager.create(customer);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             resp.getWriter().println(throwables.getMessage());
             return;
         }
+        customer.setId(pk);
         req.getSession().setAttribute("user", customer);
         resp.sendRedirect("index.jsp");
     }
@@ -150,7 +161,7 @@ public class CustomerController extends HttpServlet {
                 }
             }
             try {
-                mgr.update(customer);
+                manager.update(customer);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
                 resp.getWriter().println(throwables.getMessage());
