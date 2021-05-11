@@ -13,6 +13,7 @@ public class Staff implements Serializable {
     private String gender;
     private Date dob;
     private int privilege;
+    private String position;
 
     public Staff() {}
 
@@ -88,6 +89,14 @@ public class Staff implements Serializable {
         this.privilege = privilege;
     }
 
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
     @Override
     public String toString() {
         return "Staff{" +
@@ -100,6 +109,7 @@ public class Staff implements Serializable {
                 ", gender='" + gender + '\'' +
                 ", dob=" + dob +
                 ", privilege=" + privilege +
+                ", position='" + position + '\'' +
                 '}';
     }
 }
