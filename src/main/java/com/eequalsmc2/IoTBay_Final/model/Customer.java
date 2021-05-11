@@ -16,7 +16,6 @@ public class Customer implements Serializable {
     private String gender;
     private Date dob;
     private String phone;
-    private ArrayList<String> address = new ArrayList<>(3);
 
     public Customer() {
     }
@@ -106,15 +105,6 @@ public class Customer implements Serializable {
         this.phone= phoneNumber;
     }
 
-    public ArrayList<String> getAddress() {
-        return this.address;
-    }
-
-    public void addAddress(String address) {
-        if(this.address.size() < 3) {
-            this.address.add(address);
-        }
-    }
 
     @Override
     public String toString() {
@@ -125,7 +115,6 @@ public class Customer implements Serializable {
                 ", gender='" + gender + '\'' +
                 ", dateOfBirth=" + dob+
                 ", phoneNumber='" + phone+ '\'' +
-                ", address='" + address + '\'' +
                 '}';
     }
 }
