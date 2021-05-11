@@ -27,10 +27,10 @@ public class StaffManager {
         return false;
     }
 
-    public void create(Staff staff) throws SQLException {
+    public int create(Staff staff) throws SQLException {
         String sql = "INSERT INTO staff (email, first_name, last_name, gender, dob, phone, password, privilege, position_id) " +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, (SELECT id from staff_positions WHERE name = ?))";
-        PreparedStatement st = conn().prepareStatement(sql);
+        PreparedStatement st = conn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         st.setString(1, staff.getEmail());
         st.setString(2, staff.getFirstName());
         st.setString(3, staff.getLastName());
@@ -40,7 +40,12 @@ public class StaffManager {
         st.setString(7, staff.getPassword());
         st.setInt(8, staff.getPrivilege());
         st.setString(9, staff.getPosition());
-        st.execute();
+        st.executeUpdate();
+        ResultSet rs = st.getGeneratedKeys();
+        if(rs.next()) {
+            return rs.getInt(1);
+        }
+        return 0;
     }
 
     public void update(Staff staff) throws SQLException {
