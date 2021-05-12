@@ -83,7 +83,7 @@ public class StaffManager {
         }
         Staff staff;
         String sql = "SELECT staff.id, email, password, first_name, last_name, phone, gender, dob, privilege, sp.name as position FROM staff\n" +
-                "INNER JOIN staff_positions sp on staff.position_id = ? WHERE staff.email = ?;";
+                "INNER JOIN staff_positions sp on staff.position_id = sp.id WHERE staff.email = ?;";
         PreparedStatement st = conn().prepareStatement(sql);
         st.setString(1, email);
         ResultSet rs = st.executeQuery();

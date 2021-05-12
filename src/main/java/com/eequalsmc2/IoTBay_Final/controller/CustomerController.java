@@ -34,9 +34,7 @@ public class CustomerController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String q = req.getQueryString();
         String[] qs = q.split("=");
-        if (qs[1].equalsIgnoreCase("login")) {
-            handleLogin(req, resp);
-        } else if(qs[1].equalsIgnoreCase("register")) {
+        if(qs[1].equalsIgnoreCase("register")) {
             handleRegister(req, resp);
         } else if(qs[1].equalsIgnoreCase("edit")) {
             handleEditProfile(req, resp);
@@ -53,41 +51,6 @@ public class CustomerController extends HttpServlet {
             manager.delete(user.getId());
         } catch (SQLException e) {
             resp.getWriter().println("fail to delete user!");
-        }
-        resp.sendRedirect("index.jsp");
-    }
-
-    private void handleLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String __email = req.getParameter("email");
-        if (__email == null || !isValidEmailFormat(__email)) {
-            resp.getWriter().println("Wrong Login Info");
-            return;
-        }
-        String __password = req.getParameter("password");
-        if (__password == null || !isValidPasswordFromat(__password)) {
-            resp.getWriter().println("Wrong Login Info");
-            return;
-        }
-        Customer user = null;
-        try {
-            user = manager.get(__email);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        if (user == null) {
-            resp.getWriter().println("Wrong Login Info");
-            return;
-        }
-        if (!user.getPassword().equals(__password)) {
-            resp.getWriter().println("Wrong Login Info");
-            return;
-        }
-        req.getSession().setAttribute("user", user);
-        // update access log
-        try {
-            accessManager.create(user.getId(), "login");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
         resp.sendRedirect("index.jsp");
     }
@@ -171,8 +134,6 @@ public class CustomerController extends HttpServlet {
         }
 
     }
-
-
 
     private boolean isValidEmailFormat(String email) {
         if (!email.contains("@")) {

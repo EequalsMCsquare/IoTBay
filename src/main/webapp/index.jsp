@@ -1,8 +1,17 @@
 <%@ page import="com.eequalsmc2.IoTBay_Final.model.Customer" %>
+<%@ page import="com.eequalsmc2.IoTBay_Final.model.User" %>
+<%@ page import="com.eequalsmc2.IoTBay_Final.model.Staff" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <%
-    Customer user = (Customer)session.getAttribute("user");
+    User user = (User) session.getAttribute("user");
+    Staff staff = null;
+    Customer customer = null;
+    if(user instanceof Staff) {
+        staff = (Staff) user;
+    } else if(user instanceof Customer) {
+        customer = (Customer)user;
+    }
 %>
 
 <head>
@@ -55,12 +64,26 @@
                 <button class="btn btn-primary" type="button" onclick="window.location='register.jsp'">Register</button>
             </div>
             <%
-                } else {
+            } else {
             %>
-                <div>
-                    <button class="btn btn-success" type="button" onclick="window.location='customer_profile.jsp'">My Account</button>
-                    <button class="btn btn-warning" type="button" onclick="window.location='logout.jsp'">Logout</button>
-                </div>
+            <div>
+                <%
+                    if (customer != null) {
+                %>
+                <button class="btn btn-success" type="button" onclick="window.location='customer_profile.jsp'">My Account</button>
+                <%
+                    }
+                %>
+
+                <%
+                    if (staff != null) {
+                %>
+                <button class="btn btn-success" type="button" onclick="window.location='admin.jsp'">Admin</button>
+                <%
+                    }
+                %>
+                <button class="btn btn-warning" type="button" onclick="window.location='logout.jsp'">Logout</button>
+            </div>
             <%
                 }
             %>
