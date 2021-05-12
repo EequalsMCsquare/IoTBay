@@ -1,21 +1,25 @@
 package com.eequalsmc2.IoTBay_Final.model.dao;
 
 import com.eequalsmc2.IoTBay_Final.model.CreditCard;
+import com.eequalsmc2.IoTBay_Final.utils.DB;
 
 import java.sql.*;
 
 public class PaymentDetailManager {
-    private Connection conn;
-    private CustomerManager cm;
 
-    public PaymentDetailManager(Connection conn) throws SQLException {
-        this.conn = conn;
-        cm=new CustomerManager(conn);
+    private DB db;
+
+    public PaymentDetailManager(DB db) throws SQLException {
+        this.db = db;
+    }
+
+    private Connection conn() throws SQLException {
+        return this.db.connection();
     }
 
     public Integer create(CreditCard card, int id) throws SQLException {
         String SQL = "insert into payments(name,expire_date,card_number,customer_id)values(?,?,?,?)";
-        PreparedStatement st = conn.prepareStatement(SQL);
+        PreparedStatement st = conn().prepareStatement(SQL);
         st.setString(1, card.getName());
         st.setDate(2, new Date(card.getDate().getTime()));
         st.setInt(3, card.getCardNumber());
@@ -28,7 +32,7 @@ public class PaymentDetailManager {
 
     public void update(CreditCard card, int id) throws SQLException {
         String SQL = "update payment_details set'name'=?,'expire_date'=?,'card_number'=?,'customer_id'=? where id=?";
-        PreparedStatement st = conn.prepareStatement(SQL);
+        PreparedStatement st = conn().prepareStatement(SQL);
         st.setString(1, card.getName());
         st.setDate(2, new Date(card.getDate().getTime()));
         st.setInt(3, card.getCardNumber());
@@ -39,7 +43,7 @@ public class PaymentDetailManager {
 
     public CreditCard get(int id) throws SQLException {
         String SQL = "select * from payment_details where id=?";
-        PreparedStatement st = conn.prepareStatement(SQL);
+        PreparedStatement st = conn().prepareStatement(SQL);
         st.setInt(1, id);
         ResultSet rs = st.executeQuery();
         if (rs.next()) {
@@ -55,7 +59,7 @@ public class PaymentDetailManager {
 
     public void delete(int id) throws SQLException {
         String SQL = "delete from payment_details where id=?";
-        PreparedStatement st = conn.prepareStatement(SQL);
+        PreparedStatement st = conn().prepareStatement(SQL);
         st.setInt(1, id);
         st.execute();
     }

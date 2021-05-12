@@ -30,18 +30,25 @@ public class PaymentController extends HttpServlet {
     public PaymentController() throws SQLException, ClassNotFoundException {
         super();
         db = new DB();
-        pdm = new PaymentDetailManager(db.connection());
-        pm=new PaymentManager(db.connection());
+        pdm = new PaymentDetailManager(db);
+        pm=new PaymentManager(db);
     }
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.service(req, resp);
-        String action = req.getParameter("action");
+        // action=create&order_id=123
+        String q = req.getQueryString();
+        String actionQ = q.split("&")[0]; // action=create
+        String orderIdQ = q.split("&")[1];
+
+        int orderId = Integer.parseInt(orderIdQ.split("=")[1]);
+
+        String action = actionQ.split("=")[1];
         switch (action) {
             case "create":
                 try {
-                    create(req, resp);
+                    create(orderId, req, resp);
                 } catch (ParseException | SQLException e) {
                     e.printStackTrace();
                 }
@@ -80,7 +87,10 @@ public class PaymentController extends HttpServlet {
         }
     }
 
-    protected void create(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ParseException, SQLException {
+    protected void create(int orderId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ParseException, SQLException {
+        /*
+
+         */
         Date date = sdf.parse(req.getParameter(req.getParameter("date")));
         String name = req.getParameter("name");
         int cardNumber = Integer.parseInt(req.getParameter("cardNumber"));

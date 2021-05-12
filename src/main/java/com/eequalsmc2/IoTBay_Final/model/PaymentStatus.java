@@ -1,6 +1,6 @@
 package com.eequalsmc2.IoTBay_Final.model;
 
-public enum Status {
+public enum PaymentStatus {
     Pending,
     Completed
 }
