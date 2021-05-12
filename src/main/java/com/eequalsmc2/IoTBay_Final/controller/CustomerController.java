@@ -1,6 +1,7 @@
 package com.eequalsmc2.IoTBay_Final.controller;
 
 import com.eequalsmc2.IoTBay_Final.model.Customer;
+import com.eequalsmc2.IoTBay_Final.model.dao.CustomerAccessManager;
 import com.eequalsmc2.IoTBay_Final.model.dao.CustomerManager;
 import com.eequalsmc2.IoTBay_Final.utils.DB;
 
@@ -10,21 +11,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @WebServlet("/customerServlet")
 public class CustomerController extends HttpServlet {
     DB db;
-    CustomerManager mgr;
+    CustomerManager manager;
+    CustomerAccessManager accessManager;
     SimpleDateFormat sdf;
 
     public CustomerController() throws SQLException {
         super();
         db = new DB();
-        mgr = new CustomerManager(db);
+        manager = new CustomerManager(db);
         sdf = new SimpleDateFormat("yyyy-MM-dd");
     }
 
@@ -32,9 +34,7 @@ public class CustomerController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String q = req.getQueryString();
         String[] qs = q.split("=");
-        if (qs[1].equalsIgnoreCase("login")) {
-            handleLogin(req, resp);
-        } else if(qs[1].equalsIgnoreCase("register")) {
+        if(qs[1].equalsIgnoreCase("register")) {
             handleRegister(req, resp);
         } else if(qs[1].equalsIgnoreCase("edit")) {
             handleEditProfile(req, resp);
@@ -48,44 +48,16 @@ public class CustomerController extends HttpServlet {
         Customer user = (Customer) req.getSession().getAttribute("user");
         req.getSession().removeAttribute("user");
         try {
-            mgr.delete(user.getId());
+            manager.delete(user.getId());
         } catch (SQLException e) {
             resp.getWriter().println("fail to delete user!");
         }
         resp.sendRedirect("index.jsp");
     }
 
-    private void handleLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String __email = req.getParameter("email");
-        if (__email == null || !isValidEmailFormat(__email)) {
-            resp.getWriter().println("Wrong Login Info");
-            return;
-        }
-        String __password = req.getParameter("password");
-        if (__password == null || !isValidPasswordFromat(__password)) {
-            resp.getWriter().println("Wrong Login Info");
-            return;
-        }
-        Customer user = null;
-        try {
-            user = mgr.get(__email);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        if (user == null) {
-            resp.getWriter().println("Wrong Login Info");
-            return;
-        }
-        if (!user.getPassword().equals(__password)) {
-            resp.getWriter().println("Wrong Login Info");
-            return;
-        }
-        req.getSession().setAttribute("user", user);
-        resp.sendRedirect("index.jsp");
-    }
-
     private void handleRegister(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Customer customer = new Customer();
+        int pk = 0;
         customer.setEmail(req.getParameter("email"));
         customer.setPassword(req.getParameter("password"));
         customer.setFirstName(req.getParameter("firstName"));
@@ -98,12 +70,13 @@ public class CustomerController extends HttpServlet {
             e.printStackTrace();
         }
         try {
-            mgr.create(customer);
+            pk = manager.create(customer);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             resp.getWriter().println(throwables.getMessage());
             return;
         }
+        customer.setId(pk);
         req.getSession().setAttribute("user", customer);
         resp.sendRedirect("index.jsp");
     }
@@ -151,7 +124,7 @@ public class CustomerController extends HttpServlet {
                 }
             }
             try {
-                mgr.update(customer);
+                manager.update(customer);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
                 resp.getWriter().println(throwables.getMessage());
@@ -161,8 +134,6 @@ public class CustomerController extends HttpServlet {
         }
 
     }
-
-
 
     private boolean isValidEmailFormat(String email) {
         if (!email.contains("@")) {

@@ -20,10 +20,10 @@ public class CustomerManager {
         return db.connection();
     }
 
-    public void create(Customer customer) throws SQLException {
+    public int create(Customer customer) throws SQLException {
         String sql = "INSERT INTO customers (email, first_name, last_name, gender, dob, phone, password) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?);";
-        PreparedStatement st = conn().prepareStatement(sql);
+        PreparedStatement st = conn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         st.setString(1, customer.getEmail());
         st.setString(2, customer.getFirstName());
         st.setString(3, customer.getLastName());
@@ -31,7 +31,31 @@ public class CustomerManager {
         st.setDate(5, new Date(customer.getDob().getTime()));
         st.setString(6, customer.getPhone());
         st.setString(7, customer.getPassword());
-        st.execute();
+        st.executeUpdate();
+        ResultSet rs = st.getGeneratedKeys();
+        if(rs.next()) {
+            return rs.getInt(1);
+        }
+        return 0;
+    }
+
+    public int create(String email, String firstName, String lastName, String gender, java.util.Date dob, String phone, String password) throws SQLException {
+        String sql = "INSERT INTO customers (email, first_name, last_name, gender, dob, phone, password) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?);";
+        PreparedStatement st = conn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        st.setString(1, email);
+        st.setString(2, firstName);
+        st.setString(3, lastName);
+        st.setString(4, gender);
+        st.setDate(5, new Date(dob.getTime()));
+        st.setString(6, phone);
+        st.setString(7, password);
+        st.executeUpdate();
+        ResultSet rs = st.getGeneratedKeys();
+        if(rs.next()) {
+            return rs.getInt(1);
+        }
+        return 0;
     }
 
     public void update(Customer customer) throws SQLException {
@@ -83,17 +107,6 @@ public class CustomerManager {
             customer.setDob( new java.util.Date(rs.getDate("dob").getTime()));
             customer.setPhone(rs.getString("phone"));
             customer.setPassword(rs.getString("password"));
-
-            // Address
-            sql = "SELECT address FROM customer_address WHERE customer_id = ?";
-            st = conn().prepareStatement(sql);
-            st.setInt(1, customer.getId());
-            rs = st.executeQuery();
-            int i = 0;
-            while (rs.next() && i < 3) {
-                customer.addAddress(rs.getString("address"));
-                i++;
-            }
             return customer;
         }
         return null;
