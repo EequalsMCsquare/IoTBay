@@ -32,6 +32,16 @@ public class Customer extends User implements Serializable {
         super.phone = phoneNumber;
     }
 
+    public ArrayList<String> getAddress() {
+        return this.address;
+    }
+
+    public void addAddress(String address) {
+        if(this.address.size() < 3) {
+            this.address.add(address);
+        }
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
