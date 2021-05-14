@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -101,5 +102,12 @@ public class StaffTest {
         assertNotNull(retrievedUser);
         assertEquals(retrievedUser.getFirstName(), staff.getFirstName());
         assertEquals(retrievedUser.getLastName(), staff.getLastName());
+    }
+
+    @Test
+    public void getAllTest() throws SQLException {
+        List<Staff> staff = sm.getAll();
+        assertNotNull(staff);
+        assertTrue(staff.size() > 0);
     }
 }
