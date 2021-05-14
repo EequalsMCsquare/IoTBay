@@ -111,7 +111,7 @@
             <div class="col-md-4">
                 <h2>Payment</h2>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a class="btn btn-info btn-block" href="#" role="button">Manage Payment</a></p>
+                <p><a class="btn btn-info btn-block" href="payment_edit.jsp" role="button">Manage Payment</a></p>
             </div>
         </div>
 
