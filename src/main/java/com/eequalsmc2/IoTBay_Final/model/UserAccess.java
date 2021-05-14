@@ -12,6 +12,7 @@ public class UserAccess implements Serializable {
 
     }
     public UserAccess(int id, String type, Date time) {
+        this.id = id;
         this.time = time;
         this.type = type;
     }
