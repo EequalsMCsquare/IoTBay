@@ -1,6 +1,7 @@
 package com.eequalsmc2.IoTBay_Final.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class User {
@@ -66,6 +67,11 @@ public class User {
 
     public Date getDob() {
         return dob;
+    }
+
+    public String getDob(String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(this.dob);
     }
 
     public void setDob(Date dob) {
