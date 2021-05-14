@@ -14,7 +14,7 @@
 
 <%
     User user = (User) session.getAttribute("user");
-    Staff staff;
+    Staff staff = null;
     if (user instanceof Staff) {
         staff = (Staff) user;
     } else {
@@ -23,7 +23,6 @@
     }
 %>
 <body>
-
 
 <header>
     <div class="navbar navbar-dark bg-dark shadow-sm">
@@ -41,6 +40,65 @@
         </div>
     </div>
 </header>
+
+<main role="main">
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Hello, <%=staff.getFirstName()%>!</h1>
+            <p style="text-transform:uppercase"><%=staff.getPosition()%> Privilege <%=staff.getPrivilege()%> </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Customer</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
+                <p><a class="btn btn-success btn-block" href="#" role="button">View Customer Profile</a></p>
+            </div>
+
+            <div class="col-md-4">
+                <h2>Staff</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
+                <p><a class="btn btn-dark btn-block" href="staff_manage.jsp" role="button">Manage Staff</a></p>
+            </div>
+
+            <div class="col-md-4">
+                <h2>Stock</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
+                <p><a class="btn btn-info btn-block" href="#" role="button">Manage Product Stock</a></p>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Profile</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
+                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#profileModal">
+                    Edit My Profile
+                </button>
+            </div>
+
+            <div class="col-md-4">
+                <h2>Access Log</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
+                <p><a role="button" class="btn btn-warning btn-block" href="#">View Access Log</a></p>
+            </div>
+
+            <div class="col-md-4">
+                <h2>Account</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
+                <p><a role="button" class="btn btn-danger btn-block" href="delete_account.jsp">Cancel My Account</a></p>
+            </div>
+        </div>
+
+        <hr>
+
+    </div> <!-- /container -->
+</main>
 
 </body>
 </html>
