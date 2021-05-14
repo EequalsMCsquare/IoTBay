@@ -21,7 +21,7 @@ public class DB {
         catch (Exception e) {
             e.printStackTrace();
         }
-        this.conn = DriverManager.getConnection(URL+db, dbUser, dbPassword);
+        this.conn = DriverManager.getConnection(URL+db+"?serverTimezone=Asia/Shanghai", dbUser, dbPassword);
     }
 
     public Connection connection() throws SQLException {
