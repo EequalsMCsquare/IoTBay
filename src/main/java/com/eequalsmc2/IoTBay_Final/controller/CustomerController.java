@@ -41,7 +41,6 @@ public class CustomerController extends HttpServlet {
         } else if (qs[1].equalsIgnoreCase("delete")) {
             handleDelete(req, resp);
         }
-
     }
 
     private void handleDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

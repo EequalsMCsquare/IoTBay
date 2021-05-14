@@ -10,7 +10,4 @@ public class OrderManager {
         this.db = db;
     }
 
-    public Order get(int orderId) {
-        return null;
-    }
 }
