@@ -11,9 +11,11 @@ import java.util.Map;
 public class CustomerManager {
 
     private DB db;
+    private CustomerAccessManager cam;
 
     public CustomerManager(DB db) {
         this.db = db;
+        this.cam = new CustomerAccessManager(db);
     }
 
     private Connection conn() throws SQLException {
@@ -101,6 +103,27 @@ public class CustomerManager {
             customer = new Customer();
             customer.setId(rs.getInt("id"));
             customer.setEmail(email);
+            customer.setFirstName(rs.getString("first_name"));
+            customer.setLastName(rs.getString("last_name"));
+            customer.setGender(rs.getString("gender"));
+            customer.setDob( new java.util.Date(rs.getDate("dob").getTime()));
+            customer.setPhone(rs.getString("phone"));
+            customer.setPassword(rs.getString("password"));
+            return customer;
+        }
+        return null;
+    }
+
+    public Customer get(int id) throws SQLException {
+        Customer customer;
+        String sql = "SELECT * FROM customers WHERE id = ?";
+        PreparedStatement st = conn().prepareStatement(sql);
+        st.setInt(1, id);
+        ResultSet rs = st.executeQuery();
+        if (rs.next()) {
+            customer = new Customer();
+            customer.setId(rs.getInt("id"));
+            customer.setEmail(rs.getString("email"));
             customer.setFirstName(rs.getString("first_name"));
             customer.setLastName(rs.getString("last_name"));
             customer.setGender(rs.getString("gender"));
