@@ -20,7 +20,7 @@
         staff = (Staff) user;
     } else {
         // if not a staff redirect to login page
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("index.jsp");
     }
     // TODO: check privilege
 
@@ -43,7 +43,7 @@
             </a>
             <div>
                 <button class="btn btn-success active" type="button" onclick="window.location='admin.jsp'">Admin</button>
-                <button class="btn btn-warning" type="button" onclick="window.location='logout.jsp'">Logout</button>
+                <a class="btn btn-warning" type="button" href="logoutServlet">Logout</a>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
 
 <div role="main">
     <div class="row">
-<%--        TODO: Add toobar--%>
+<%--        TODO: Add toolbar--%>
     </div>
 
     <div class="row">
