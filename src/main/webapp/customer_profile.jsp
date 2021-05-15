@@ -74,7 +74,7 @@
             %>
             <div>
                 <button class="btn btn-success active" type="button" onclick="window.location='customer_profile.jsp'">My Account</button>
-                <button class="btn btn-warning" type="button" onclick="window.location='logout.jsp'">Logout</button>
+                <a href="logoutServlet" type="button" class="btn btn-warning">Logout</a>
             </div>
             <%
                 }
@@ -201,8 +201,10 @@
 <footer class="container">
     <p>&copy; Company 2017-2020</p>
 </footer>
+</body>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.js"></script></body>
+<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.js"></script>
 
 <script>
     let makeEditable = (id) => {

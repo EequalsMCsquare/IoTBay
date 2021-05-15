@@ -1,34 +1,43 @@
 <%@ page import="com.eequalsmc2.IoTBay_Final.model.User" %>
 <%@ page import="com.eequalsmc2.IoTBay_Final.model.Staff" %>
+<%@ page import="com.eequalsmc2.IoTBay_Final.model.Customer" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.eequalsmc2.IoTBay_Final.model.dao.StaffManager" %>
+<%@ page import="com.eequalsmc2.IoTBay_Final.model.UserAccess" %>
 <%@ page import="com.eequalsmc2.IoTBay_Final.utils.DB" %>
+<%@ page import="com.eequalsmc2.IoTBay_Final.model.dao.StaffAccessManager" %>
+<%@ page import="com.eequalsmc2.IoTBay_Final.model.dao.CustomerAccessManager" %><%--
+  Created by IntelliJ IDEA.
+  User: Reco
+  Date: 2021/5/15
+  Time: 14:38
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>IoTBay - Staff Management</title>
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>IoTBay - Access</title>
+    <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
 </head>
 <%
-    User user = (User) session.getAttribute("user");
-    Staff staff = null;
-    if (user instanceof Staff) {
-        staff = (Staff) user;
-    } else {
-        // if not a staff redirect to login page
-        response.sendRedirect("index.jsp");
-    }
-    // TODO: check privilege
-
     DB db = new DB();
-    StaffManager sm = new StaffManager(db);
-
-    // get all staff
-    List<Staff> staffList = sm.getAll();
+    User user = (User) session.getAttribute("user");
+    if (user == null) {
+        response.sendRedirect("login.jsp");
+    }
+    List<UserAccess> accesses;
+    if (user instanceof Staff) {
+        StaffAccessManager am = new StaffAccessManager(db);
+        accesses = am.get(user.getId());
+    } else {
+        CustomerAccessManager am = new CustomerAccessManager(db);
+        accesses = am.get(user.getId());
+    }
 %>
 <body>
 
@@ -42,88 +51,59 @@
                 <strong style="margin-left:3px">IoTBay</strong>
             </a>
             <div>
-                <button class="btn btn-success active" type="button" onclick="window.location='admin.jsp'">Admin</button>
-                <a class="btn btn-warning" type="button" href="logoutServlet">Logout</a>
+                <%
+                    if (user instanceof Staff) {
+                %>
+                    <button class="btn btn-success active" type="button" onclick="window.location='admin.jsp'">Admin</button>
+                <%
+                    } else {
+                %>
+                <button class="btn btn-success active" type="button" onclick="window.location='customer_profile.jsp'">My Account</button>
+                <%
+                    }
+                %>
+
+                <button class="btn btn-warning" type="button" onclick="window.location='logout.jsp'">Logout</button>
             </div>
         </div>
     </div>
 </header>
 
 <div role="main">
-    <div class="row">
-<%--        TODO: Add toolbar--%>
-    </div>
+    <div class="row mt-2">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
 
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
+            <div class="table-responsive">
 
-            <table class="table table-hover table-striped table-responsive">
+            <table class="table table-hover table-striped ">
                 <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
-                    <th>Email</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Phone</th>
-                    <th>Gender</th>
-                    <th>D.O.B</th>
-                    <th>Privilege</th>
-                    <th>Position</th>
-                    <th>#Action</th>
+                    <th>Type</th>
+                    <th>Time</th>
                 </tr>
                 </thead>
                 <tbody>
                 <%
-                    for (Staff e: staffList) {
+                    for (UserAccess e: accesses) {
                 %>
-                    <tr>
-                        <td><%=e.getId()%></td>
-                        <td><%=e.getEmail()%></td>
-                        <td><%=e.getFirstName()%></td>
-                        <td><%=e.getLastName()%></td>
-                        <td><%=e.getPhone()%></td>
-                        <td><%=e.getGender()%></td>
-                        <td><%=e.getDob("yyyy-MM-dd")%></td>
-                        <td><%=e.getPrivilege()%></td>
-                        <td><%=e.getPosition()%></td>
-                        <td>
-                            <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-warning">Edit</button>
-                                <button type="button" class="btn btn-danger">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
+                <tr>
+                    <td><%=e.getId()%></td>
+                    <td style="text-transform: capitalize"><%=e.getType()%></td>
+                    <td><%=e.getTime("yyyy-MM-dd HH:mm:ss")%></td>
+                </tr>
                 <%
                     }
                 %>
                 </tbody>
             </table>
+            </div>
+
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-md-3"></div>
     </div>
 </div>
 
 </body>
-
-<style>
-    td {
-        vertical-align: center !important;
-    }
-</style>
-
-<script>
-    function deleteStaff(staffId) {
-        const tmpForm = document.createElement("form");
-        tmpForm.method = "post";
-        tmpForm.action = "staffServlet?action=delete"
-        const tmpInput = document.createElement("input");
-        tmpInput.setAttribute("name", "id");
-        tmpInput.setAttribute("value", staffId);
-        tmpForm.appendChild(tmpInput);
-        $(document.body).append(tmpForm);
-        tmpForm.submit();
-    }
-</script>
-
 </html>

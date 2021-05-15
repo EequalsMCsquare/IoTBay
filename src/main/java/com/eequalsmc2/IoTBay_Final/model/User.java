@@ -79,9 +79,9 @@ public class User {
         this.dob = dob;
     }
 
-    public void setDob(String dob) throws ParseException {
+    public void setDob(String date) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        this.dob = sdf.parse(dob);
+        this.dob = sdf.parse(date);
     }
 
     public String getPhone() {

@@ -84,6 +84,11 @@ public class CustomerController extends HttpServlet {
             return;
         }
         customer.setId(pk);
+        try {
+            accessManager.create(pk, "register");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         req.getSession().setAttribute("user", customer);
         resp.sendRedirect("index.jsp");
     }
@@ -132,6 +137,7 @@ public class CustomerController extends HttpServlet {
             }
             try {
                 manager.update(customer);
+                accessManager.create(customer.getId(), "update profile");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
                 resp.getWriter().println(throwables.getMessage());
