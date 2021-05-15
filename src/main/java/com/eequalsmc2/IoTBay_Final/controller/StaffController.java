@@ -39,9 +39,8 @@ public class StaffController extends HttpServlet {
             String action = qs[0].split("=")[1];
             if (action.equalsIgnoreCase("register")) {
                 handleRegister(req, resp);
-            } else if (action.equalsIgnoreCase("delete")) {
-                handleDelete(req, resp);
-            } else if (action.equalsIgnoreCase("cancel")) {
+            }
+            else if (action.equalsIgnoreCase("cancel")) {
                 handleCancel(req, resp);
             }
         } else if (qs.length == 2) {
@@ -58,6 +57,20 @@ public class StaffController extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String q = req.getQueryString();
+        String[] qs = q.split("&");
+        if (qs.length == 2) {
+            String action = qs[0].split("=")[1];
+            if (action.equalsIgnoreCase("delete")) {
+                int id = Integer.parseInt(qs[1].split("=")[1]);
+                req.setAttribute("id", id);
+                handleDelete(req, resp);
+            }
+        }
+    }
+
     private void handleCancel(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Staff user = (Staff) req.getSession().getAttribute("user");
         req.getSession().removeAttribute("user");
@@ -69,16 +82,16 @@ public class StaffController extends HttpServlet {
         resp.sendRedirect("index.jsp");
     }
 
-    // required parameter:
-    // id: to be deleted user's id
-    private void handleDelete(HttpServletRequest req, HttpServletResponse resp) {
-        String idQuery = req.getParameter("id");
-        int id = Integer.parseInt(idQuery);
+    // required attribute:
+        // id: to be deleted user's id
+    private void handleDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        int id = (int) req.getAttribute("id");
         try {
             sm.delete(id);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        resp.sendRedirect("staff_manage.jsp");
     }
 
     private void handleEditProfile(HttpServletRequest req, HttpServletResponse resp) throws ParseException, IOException {
