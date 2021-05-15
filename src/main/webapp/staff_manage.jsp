@@ -23,12 +23,29 @@
         response.sendRedirect("index.jsp");
     }
     // TODO: check privilege
-
     DB db = new DB();
     StaffManager sm = new StaffManager(db);
 
-    // get all staff
-    List<Staff> staffList = sm.getAll();
+    // get data
+    List<Staff> staffList = null;
+    String query = request.getQueryString();
+    if (query != null){
+        String[] qs = query.split("&");
+        if (qs.length == 0) {
+            // get all staff
+            staffList = sm.getAll();
+        } else if (qs.length == 2) {
+            String filter = qs[0].split("=")[1];
+            String by = qs[1].split("=")[1];
+            if(by == null || by == "") {
+                staffList = sm.getAll();
+            } else {
+                staffList = sm.findAll(filter, by);
+            }
+        }
+    } else {
+        staffList = sm.getAll();
+    }
 %>
 <body>
 
@@ -50,11 +67,33 @@
 </header>
 
 <div role="main">
-    <div class="row">
-<%--        TODO: Add toolbar--%>
+    <div class="row mt-2">
+        <div class="col-md-2"></div>
+
+        <div class="col-md-8">
+            <form action="staffServlet">
+                <div class="input-group flex-nowrap">
+                    <div class="input-group-prepend">
+                        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#add-staff">Add</button>
+                        <select class="custom-select" id="search-filter" id="filter">
+                            <option selected value="email">Email</option>
+                            <option value="position">Position</option>
+                            <option value="first_name">First Name</option>
+                            <option value="last_name">Last Name</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form-control" placeholder="search ..." id="search-contain">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="button" onclick="onClickSearch()">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-2"></div>
     </div>
 
-    <div class="row">
+    <div class="row mt-2">
         <div class="col-md-2"></div>
         <div class="col-md-8">
 
@@ -89,8 +128,8 @@
                         <td><%=e.getPosition()%></td>
                         <td>
                             <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-warning">Edit</button>
-                                <button type="button" class="btn btn-danger">Delete</button>
+                                <a type="button" class="btn btn-warning" href="staff_edit.jsp">Edit</a>
+                                <a type="button" class="btn btn-danger" href="staffServlet?action=delete&id=<%=e.getId()%>">Delete</a>
                             </div>
                         </td>
                     </tr>
@@ -101,6 +140,48 @@
             </table>
         </div>
         <div class="col-md-2"></div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" aria-hidden="true" id="add-staff">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Staff</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" aria-hidden="true" id="edit-staff">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Staff Info Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -123,6 +204,12 @@
         tmpForm.appendChild(tmpInput);
         $(document.body).append(tmpForm);
         tmpForm.submit();
+    }
+
+    function onClickSearch() {
+        const by = document.getElementById("search-contain").value;
+        const filter = document.getElementById("search-filter").value;
+        window.location = "staff_manage.jsp?filter=" + filter + "&by=" + by;
     }
 </script>
 
