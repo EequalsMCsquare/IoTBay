@@ -1,6 +1,7 @@
 package com.eequalsmc2.IoTBay_Final.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class UserAccess implements Serializable {
@@ -35,6 +36,11 @@ public class UserAccess implements Serializable {
 
     public Date getTime() {
         return time;
+    }
+
+    public String getTime(String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(this.time);
     }
 
     public void setTime(Date time) {
