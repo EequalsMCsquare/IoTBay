@@ -150,9 +150,9 @@ public class StaffController extends HttpServlet {
         resp.sendRedirect("admin.jsp");
     }
 
-    private void handleRegister(HttpServletRequest req, HttpServletResponse resp) {
+    private void handleRegister(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int pk = 0;
-        String email = req.getParameter("email");
+        String email = req.getParameter("email") + "@staff.iotbay.com";
         if (!isValidEmailFormat(email)) {
 
         }
@@ -160,8 +160,8 @@ public class StaffController extends HttpServlet {
         if(!isValidPasswordFormat(password)) {
 
         }
-        String firstName = req.getParameter("first_name");
-        String lastName = req.getParameter("last_name");
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
         String gender = req.getParameter("gender");
         String phone = req.getParameter("phone");
         String dob = req.getParameter("dob");
@@ -175,6 +175,7 @@ public class StaffController extends HttpServlet {
             // handle error
         }
         // TODO
+        resp.sendRedirect("staff_manage.jsp");
     }
 
     private boolean isValidPasswordFormat(String password) {

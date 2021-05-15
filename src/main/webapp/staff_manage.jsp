@@ -148,38 +148,71 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Staff</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <p>Modal body text goes here.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-
-<div class="modal fade" tabindex="-1" aria-hidden="true" id="edit-staff">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Staff Info Edit</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
             <div class="modal-body">
-                <p>Modal body text goes here.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <form action="staffServlet?action=register" method="post">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-group mb-3">
+                            <input type="text" name="email" class="form-control" id="email" placeholder=>
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">@staff.iotbay.com</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" >
+                    </div>
+                    <div class="form-group">
+                        <label for="password">New Password</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" class="form-control" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select name="gender" id="gender" class="form-control">
+                            <option value="preferNotToTell">Prefer not to tell</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Birthday</label>
+                        <input type="date" class="form-control" id="dob" name="dob">
+                    </div>
+                    <div class="form-group">
+                        <label for="privilege">Privilege</label>
+                        <input type="number" name="privilege" class="form-control" id="privilege" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="position">Position</label>
+                        <select name="position" id="position" class="form-control">
+                            <option value="salesperson" selected>Salesperson</option>
+                            <option value="manager">Manager</option>
+                            <option value="repair">Repair Service</option>
+                            <option value="accountant">Accountant</option>
+                            <option value="support">Support</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Add Staff</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
