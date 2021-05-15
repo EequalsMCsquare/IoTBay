@@ -70,6 +70,11 @@ public class User {
         return dob;
     }
 
+    public String getDob(String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(this.dob);
+    }
+
     public void setDob(Date dob) {
         this.dob = dob;
     }
