@@ -1,7 +1,6 @@
 package com.eequalsmc2.IoTBay_Final.model;
 
 import java.io.Serializable;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -72,11 +71,6 @@ public class User {
 
     public void setDob(Date dob) {
         this.dob = dob;
-    }
-
-    public void setDob(String dob) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        this.dob = sdf.parse(dob);
     }
 
     public String getPhone() {

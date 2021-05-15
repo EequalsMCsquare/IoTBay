@@ -4,6 +4,8 @@ import com.eequalsmc2.IoTBay_Final.model.Staff;
 import com.eequalsmc2.IoTBay_Final.utils.DB;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class StaffManager {
 
@@ -170,5 +172,28 @@ public class StaffManager {
             return staff;
         }
         return null;
+    }
+
+    public List<Staff> getAll() throws SQLException {
+        LinkedList<Staff> staff = new LinkedList<>();
+        String sql = "SELECT staff.id, email, password, first_name, last_name, phone, gender, dob, privilege, sp.name as position FROM staff\n" +
+                "INNER JOIN staff_positions sp on staff.position_id = sp.id;";
+        Statement p = conn().createStatement();
+        ResultSet resultSet = p.executeQuery(sql);
+        while(resultSet.next()) {
+            Staff user = new Staff();
+            user.setId(resultSet.getInt("id"));
+            user.setEmail(resultSet.getString("email"));
+            user.setFirstName(resultSet.getString("first_name"));
+            user.setLastName(resultSet.getString("last_name"));
+            user.setGender(resultSet.getString("gender"));
+            user.setDob(new java.util.Date( resultSet.getDate("dob").getTime()));
+            user.setPhone(resultSet.getString("phone"));
+            user.setPassword(resultSet.getString("password"));
+            user.setPrivilege(resultSet.getInt("privilege"));
+            user.setPosition(resultSet.getString("position"));
+            staff.add(user);
+        }
+        return staff;
     }
 }
