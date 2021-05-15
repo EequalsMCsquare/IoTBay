@@ -82,7 +82,8 @@
                 <%
                     }
                 %>
-                <button class="btn btn-warning" type="button" onclick="window.location='logout.jsp'">Logout</button>
+<%--                <button class="btn btn-warning" type="button" onclick="window.location='lo'">Logout</button>--%>
+                <a href="logoutServlet" type="button" class="btn btn-warning">Logout</a>
             </div>
             <%
                 }
