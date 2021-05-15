@@ -196,4 +196,32 @@ public class StaffManager {
         }
         return staff;
     }
+
+    public List<Staff> findAll(String filter, String by) throws SQLException {
+        LinkedList<Staff> staff = new LinkedList<>();
+        if (filter.equalsIgnoreCase("position")) {
+            filter = "sp.name";
+        }
+        String sql;
+        sql = "SELECT staff.id, email, password, first_name, last_name, phone, gender, dob, privilege, sp.name as position FROM staff\n" +
+                "INNER JOIN staff_positions sp on staff.position_id = sp.id WHERE " + filter + " LIKE ?;";
+        PreparedStatement p = conn().prepareStatement(sql);
+        p.setString(1, "%" + by + "%");
+        ResultSet resultSet = p.executeQuery();
+        while(resultSet.next()) {
+            Staff user = new Staff();
+            user.setId(resultSet.getInt("id"));
+            user.setEmail(resultSet.getString("email"));
+            user.setFirstName(resultSet.getString("first_name"));
+            user.setLastName(resultSet.getString("last_name"));
+            user.setGender(resultSet.getString("gender"));
+            user.setDob(new java.util.Date( resultSet.getDate("dob").getTime()));
+            user.setPhone(resultSet.getString("phone"));
+            user.setPassword(resultSet.getString("password"));
+            user.setPrivilege(resultSet.getInt("privilege"));
+            user.setPosition(resultSet.getString("position"));
+            staff.add(user);
+        }
+        return staff;
+    }
 }
