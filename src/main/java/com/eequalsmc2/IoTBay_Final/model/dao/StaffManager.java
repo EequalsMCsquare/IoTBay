@@ -69,7 +69,28 @@ public class StaffManager {
             return rs.getInt(1);
         }
         return 0;
+    }
 
+
+    public int create(String email, String firstName, String lastName, String gender, String dob, String phone, String password, int privilege, String position) throws SQLException {
+        String sql = "INSERT INTO staff (email, first_name, last_name, gender, dob, phone, password, privilege, position_id) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, (SELECT id from staff_positions WHERE name = ?))";
+        PreparedStatement st = conn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        st.setString(1, email);
+        st.setString(2, firstName);
+        st.setString(3, lastName);
+        st.setString(4, gender);
+        st.setString(5, dob);
+        st.setString(6, phone);
+        st.setString(7, password);
+        st.setInt(8, privilege);
+        st.setString(9, position);
+        st.executeUpdate();
+        ResultSet rs = st.getGeneratedKeys();
+        if(rs.next()) {
+            return rs.getInt(1);
+        }
+        return 0;
     }
 
     public void update(Staff staff) throws SQLException {

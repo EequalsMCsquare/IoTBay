@@ -40,11 +40,12 @@ public class CustomerController extends HttpServlet {
             handleEditProfile(req, resp);
         } else if (qs[1].equalsIgnoreCase("delete")) {
             handleDelete(req, resp);
+        } else if (qs[1].equalsIgnoreCase("cancel")) {
+            handleCancel(req, resp);
         }
-
     }
 
-    private void handleDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void handleCancel(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Customer user = (Customer) req.getSession().getAttribute("user");
         req.getSession().removeAttribute("user");
         try {
@@ -53,6 +54,12 @@ public class CustomerController extends HttpServlet {
             resp.getWriter().println("fail to delete user!");
         }
         resp.sendRedirect("index.jsp");
+    }
+
+    // required parameter:
+    // id: to be deleted user's id
+    private void handleDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
     }
 
     private void handleRegister(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

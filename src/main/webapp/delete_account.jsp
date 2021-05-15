@@ -1,4 +1,6 @@
-<%@ page import="com.eequalsmc2.IoTBay_Final.model.Customer" %><%--
+<%@ page import="com.eequalsmc2.IoTBay_Final.model.Customer" %>
+<%@ page import="com.eequalsmc2.IoTBay_Final.model.User" %>
+<%@ page import="com.eequalsmc2.IoTBay_Final.model.Staff" %><%--
   Created by IntelliJ IDEA.
   User: Reco
   Date: 2021/5/9
@@ -10,10 +12,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v4.0.1">
-    <title>Delete Account</title>
+    <title>IoTBay - Delete Account</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -22,7 +21,7 @@
 </head>
 
 <%
-    Customer user = (Customer) session.getAttribute("user");
+    User user = (User) session.getAttribute("user");
     if(user == null) {
         response.sendRedirect("login.jsp");
     }
@@ -38,10 +37,6 @@
                 </svg>
                 <strong style="margin-left:3px">IoTBay</strong>
             </a>
-<%--            <div>--%>
-<%--                <button class="btn btn-light" type="button" onclick="window.location='login.jsp'">Login</button>--%>
-<%--                <button class="btn btn-primary active" type="button" onclick="window.location='register.jsp'">Register</button>--%>
-<%--            </div>--%>
         </div>
     </div>
 </header>
@@ -77,7 +72,17 @@
     function confirmDelete() {
         const myForm = document.createElement("form");
         myForm.method = "post";
-        myForm.action = "customerServlet?action=delete";
+        <%
+        if (user instanceof Customer) {
+        %>
+            myForm.action = "customerServlet?action=cancel";
+        <%
+        } else {
+        %>
+            myForm.action = "staffServlet?action=cancel";
+        <%
+            }
+        %>
         myForm.style.display = "none";
         $(document.body).append(myForm);
         myForm.submit();
