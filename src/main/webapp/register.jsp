@@ -67,7 +67,7 @@
         <div class="col-md-4"></div>
 
         <div class="col-md-4">
-            <form class="register-form" action="registerServlet" method="post">
+            <form class="register-form" action="customerServlet?action=register" method="post">
 
                 <div class="form-group">
                     <label for="email">Email</label>
