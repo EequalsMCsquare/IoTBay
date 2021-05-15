@@ -42,13 +42,34 @@ public class StaffController extends HttpServlet {
             }
         } else if(qs[1].equalsIgnoreCase("delete")) {
             handleDelete(req, resp);
+        } else if (qs[1].equalsIgnoreCase("cancel"))  {
+            handleCancel(req, resp);
         } else {
             // TODO: Unknown action
         }
     }
 
-    private void handleDelete(HttpServletRequest req, HttpServletResponse resp) {
+    private void handleCancel(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Staff user = (Staff) req.getSession().getAttribute("user");
+        req.getSession().removeAttribute("user");
+        try {
+            sm.delete(user.getId());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        resp.sendRedirect("index.jsp");
+    }
 
+    // required parameter:
+    // id: to be deleted user's id
+    private void handleDelete(HttpServletRequest req, HttpServletResponse resp) {
+        String idQuery = req.getParameter("id");
+        int id = Integer.parseInt(idQuery);
+        try {
+            sm.delete(id);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     private void handleEditProfile(HttpServletRequest req, HttpServletResponse resp) throws ParseException {
