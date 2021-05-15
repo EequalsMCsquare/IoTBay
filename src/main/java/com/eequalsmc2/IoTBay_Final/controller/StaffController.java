@@ -1,6 +1,7 @@
 package com.eequalsmc2.IoTBay_Final.controller;
 
 import com.eequalsmc2.IoTBay_Final.model.Staff;
+import com.eequalsmc2.IoTBay_Final.model.dao.StaffAccessManager;
 import com.eequalsmc2.IoTBay_Final.model.dao.StaffManager;
 import com.eequalsmc2.IoTBay_Final.utils.DB;
 
@@ -19,33 +20,41 @@ public class StaffController extends HttpServlet {
 
     private DB db;
     private StaffManager sm;
+    private StaffAccessManager sam;
     SimpleDateFormat sdf;
 
     public StaffController() throws SQLException {
         super();
         db = new DB();
         sm = new StaffManager(db);
+        sam = new StaffAccessManager(db);
         sdf = new SimpleDateFormat("yyyy-MM-dd");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String q = req.getQueryString();
-        String[] qs = q.split("=");
-        if(qs[1].equalsIgnoreCase("register")) {
-            handleRegister(req, resp);
-        } else if(qs[1].equalsIgnoreCase("edit")) {
-            try {
-                handleEditProfile(req, resp);
-            } catch (ParseException e) {
-                e.printStackTrace();
+        String[] qs = q.split("&");
+        if (qs.length == 1) {
+            String action = qs[0].split("=")[1];
+            if (action.equalsIgnoreCase("register")) {
+                handleRegister(req, resp);
+            } else if (action.equalsIgnoreCase("delete")) {
+                handleDelete(req, resp);
+            } else if (action.equalsIgnoreCase("cancel")) {
+                handleCancel(req, resp);
             }
-        } else if(qs[1].equalsIgnoreCase("delete")) {
-            handleDelete(req, resp);
-        } else if (qs[1].equalsIgnoreCase("cancel"))  {
-            handleCancel(req, resp);
-        } else {
-            // TODO: Unknown action
+        } else if (qs.length == 2) {
+            String action = qs[0].split("=")[1];
+            if(action.equalsIgnoreCase("edit")) {
+                int id = Integer.parseInt(qs[1].split("=")[1]);
+                req.setAttribute("id", id);
+                try {
+                    handleEditProfile(req, resp);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -72,12 +81,8 @@ public class StaffController extends HttpServlet {
         }
     }
 
-    private void handleEditProfile(HttpServletRequest req, HttpServletResponse resp) throws ParseException {
-        String idParameter = req.getParameter("id");
-        if (!isNullOrEmpty(idParameter)) {
-            // TODO:
-        }
-        int id = Integer.parseInt(req.getParameter("id"));
+    private void handleEditProfile(HttpServletRequest req, HttpServletResponse resp) throws ParseException, IOException {
+        int id = (int) req.getAttribute("id");
         String password = req.getParameter("password");
         if(!isValidPasswordFormat(password)) {
 
@@ -95,6 +100,7 @@ public class StaffController extends HttpServlet {
             user = sm.get(id);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            resp.setStatus(500);
         }
 
         if (!isNullOrEmpty(password)) {
@@ -123,11 +129,12 @@ public class StaffController extends HttpServlet {
         }
         try {
             sm.update(user);
+            sam.create(user.getId(), "edit profile");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
-        // TODO....
+        resp.sendRedirect("admin.jsp");
     }
 
     private void handleRegister(HttpServletRequest req, HttpServletResponse resp) {
@@ -149,7 +156,7 @@ public class StaffController extends HttpServlet {
         String position = req.getParameter("position");
 
         try {
-            pk = sm.create(email, firstName, lastName, gender, dob, phone, password,privilege, position);
+            pk = sm.create(email, firstName, lastName, gender, dob, phone, password, privilege, position);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             // handle error
@@ -168,7 +175,7 @@ public class StaffController extends HttpServlet {
     }
 
     private boolean isNullOrEmpty(String str) {
-        if (str.isEmpty() || str == null) {
+        if (str == null || str.isEmpty()) {
             return true;
         }
         return false;

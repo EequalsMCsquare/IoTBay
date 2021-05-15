@@ -35,7 +35,7 @@
             </a>
             <div>
                 <button class="btn btn-success active" type="button" onclick="window.location='admin.jsp'">Admin</button>
-                <button class="btn btn-warning" type="button" onclick="window.location='logout.jsp'">Logout</button>
+                <a type="button" class="btn btn-warning" type="button" href="logoutServlet">Logout</a>
             </div>
         </div>
     </div>
@@ -85,7 +85,7 @@
             <div class="col-md-4">
                 <h2>Access Log</h2>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a role="button" class="btn btn-warning btn-block" href="#">View Access Log</a></p>
+                <p><a role="button" class="btn btn-warning btn-block" href="user_access.jsp">View Access Log</a></p>
             </div>
 
             <div class="col-md-4">
@@ -100,5 +100,81 @@
     </div> <!-- /container -->
 </main>
 
+
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="staffServlet?action=edit&id=<%=user.getId()%>" method="post">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" disabled placeholder=<%=user.getEmail()%>>
+                    </div>
+                    <div class="form-group">
+                        <label for="privilege">Privilege</label>
+                        <input type="text" class="form-control" id="privilege" disabled placeholder="<%=staff.getPrivilege()%>">
+                    </div>
+                    <div class="form-group">
+                        <label for="position">Position</label>
+                        <input type="text" class="form-control" id="position" disabled placeholder="<%=staff.getPosition()%>">
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" disabled id="firstName" name="firstName" placeholder="<%=user.getFirstName()%>">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" disabled id="lastName" name="lastName" placeholder=<%=user.getLastName()%>>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">New Password</label>
+                        <input type="password" class="form-control" disabled id="password" name="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" class="form-control" disabled id="phone" name="phone" placeholder=<%=user.getPhone()%>>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <input type="text" class="form-control"disabled id="gender" name="gender" placeholder=<%=user.getGender()%>>
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Birthday</label>
+                        <input type="text" class="form-control" disabled id="dob" onfocus="(this.type='date')" name="dob" placeholder=<%=user.getDob("yyyy-MM-dd")%>>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-warning" onclick="makeProfileEditable()">Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+
+
+<script>
+    let makeEditable = (id) => {
+        document.getElementById(id).removeAttribute("disabled");
+    }
+    let makeProfileEditable = () => {
+        makeEditable("firstName");
+        makeEditable("lastName");
+        makeEditable("password");
+        makeEditable("phone");
+        makeEditable("gender");
+        makeEditable("dob");
+    }
+</script>
+
 </html>
