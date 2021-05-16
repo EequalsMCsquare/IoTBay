@@ -76,7 +76,7 @@
             %>
             <div>
                 <button class="btn btn-success active" type="button" onclick="window.location='customer_profile.jsp'">My Account</button>
-                <button class="btn btn-warning" type="button" onclick="window.location='logout.jsp'">Logout</button>
+                <a class="btn btn-warning" type="button" href="logoutServlet">Logout</a>
                 <button class="btn btn-primary" type="button" onclick="window.location='payment.jsp'">PaymentDetails</button>
             </div>
             <%
