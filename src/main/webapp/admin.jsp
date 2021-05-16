@@ -53,9 +53,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <h2>Customer</h2>
+                <h2>Supplier</h2>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a class="btn btn-success btn-block" href="#" role="button">View Customer Profile</a></p>
+                <p><a class="btn btn-success btn-block" href="supplier?operate=list" role="button">Manage Supplier</a></p>
+
             </div>
 
             <div class="col-md-4">
