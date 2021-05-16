@@ -81,7 +81,6 @@ public class CustomerController extends HttpServlet {
         try {
             pk = manager.create(customer);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
             Helper.alert(resp.getWriter(), "fail to create entity");
             return;
         }
