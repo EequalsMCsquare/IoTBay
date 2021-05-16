@@ -94,7 +94,7 @@ public class StaffManager {
     }
 
     public void update(Staff staff) throws SQLException {
-        String sql = "UPDATE staff SET first_name = ?, last_name = ?, gender = ?, dob = ?, phone = ?, password = ?, privilege = ?, position_id = (SELECT id from staff_positions WHERE staff_positions.name = ?) WHERE email = ?";
+        String sql = "UPDATE staff SET first_name = ?, last_name = ?, gender = ?, dob = ?, phone = ?, password = ?, privilege = ?, position_id = (SELECT id from staff_positions WHERE staff_positions.name = ?) WHERE staff.id = ?";
         PreparedStatement st = conn().prepareStatement(sql);
         st.setString(1, staff.getFirstName());
         st.setString(2, staff.getLastName());
@@ -104,7 +104,7 @@ public class StaffManager {
         st.setString(6, staff.getPassword());
         st.setInt(7, staff.getPrivilege());
         st.setString(8, staff.getPosition());
-        st.setString(9, staff.getEmail());
+        st.setInt(9, staff.getId());
         st.execute();
     }
 

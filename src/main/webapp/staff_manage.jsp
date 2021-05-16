@@ -22,7 +22,12 @@
         // if not a staff redirect to login page
         response.sendRedirect("index.jsp");
     }
-    // TODO: check privilege
+    if (staff.getPrivilege() < 5) {
+        out.print("<script type='text/javascript'>alert('Your privilege is too low to edit staff!');</script>");
+        out.print("<script type='text/javascript'>window.history.go(-1);</script>");
+        out.flush();
+        out.close();
+    }
     DB db = new DB();
     StaffManager sm = new StaffManager(db);
 
@@ -71,7 +76,7 @@
         <div class="col-md-2"></div>
 
         <div class="col-md-8">
-            <form action="staffServlet">
+            <form action="staffServlet" method="post">
                 <div class="input-group flex-nowrap">
                     <div class="input-group-prepend">
                         <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#add-staff">Add</button>
@@ -128,7 +133,7 @@
                         <td><%=e.getPosition()%></td>
                         <td>
                             <div class="btn-group btn-group-sm" role="group">
-                                <a type="button" class="btn btn-warning" href="staff_edit.jsp">Edit</a>
+                                <a type="button" class="btn btn-warning" href="staff_edit.jsp?staff_id=<%=user.getId()%>">Edit</a>
                                 <a type="button" class="btn btn-danger" href="staffServlet?action=delete&id=<%=e.getId()%>">Delete</a>
                             </div>
                         </td>
