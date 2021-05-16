@@ -33,7 +33,6 @@ public class OrderController extends HttpServlet {
     	req.setCharacterEncoding("utf-8");
     	resp.setContentType("text/html;charset=utf-8");
     	String operate = req.getParameter("operate");
-    	//������ʾҳ��
     	if("list".equals(operate)) {
     		showList(req,resp);
     	}else if("add".equals(operate)) {
@@ -186,24 +185,17 @@ public class OrderController extends HttpServlet {
     	try {
 			ArrayList<Order> list = manager.search(null);
 			System.out.println(list);
-			//�������ݵ�request��
 			req.setAttribute("list", list);
-			//ͨ��ת����order.jsp��
 			req.getRequestDispatcher(view2).forward(req, resp);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
     }
     
-    
-  
     private boolean isNotNullOrEmpty(String str) {
         if (str.equals("") || str == null) {
             return false;
         }
         return true;
     }
-
-
-   
 }
