@@ -63,7 +63,7 @@
                     }
                 %>
 
-                <button class="btn btn-warning" type="button" onclick="window.location='logout.jsp'">Logout</button>
+                <a class="btn btn-warning" type="button" href="logoutServlet">Logout</a>
             </div>
         </div>
     </div>
