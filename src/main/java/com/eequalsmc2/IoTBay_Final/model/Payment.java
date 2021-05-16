@@ -3,40 +3,18 @@ package com.eequalsmc2.IoTBay_Final.model;
 import java.util.Date;
 
 public class Payment {
-    private int id;
-    private int order_id;
-    private float amount;
-    private String status;
-    private Date date;
-    private CreditCard card;
-    private int paymentDetailId;
-
-    public int getPaymentDetailId() {
-        return paymentDetailId;
-    }
-
-    public void setPaymentDetailId(int paymentDetailId) {
-        this.paymentDetailId = paymentDetailId;
-    }
-
-    public CreditCard getCard() {
-        return card;
-    }
-
-    public void setCard(CreditCard card) {
-        this.card = card;
-    }
-
-    public Payment(int id, int order_id, float amount, String status, Date date,CreditCard card) {
-        this.id = id;
-        this.order_id = order_id;
-        this.amount = amount;
-        this.status = status;
+    public Payment(int cardNumber, Date date, String name) {
+        this.cardNumber = cardNumber;
         this.date = date;
-        this.card=card;
+        this.name = name;
     }
 
-    public Payment(){}
+    private int id;
+    private int customerId;
+    private int cardNumber;
+    private Date date;
+    private String name;
+
     public int getId() {
         return id;
     }
@@ -45,28 +23,21 @@ public class Payment {
         this.id = id;
     }
 
-    public int getOrder_id() {
-        return order_id;
+    public String getName() {
+        return name;
     }
 
-    public void setOrder_id(int order_id) {
-        this.order_id = order_id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public float getAmount() {
-        return amount;
+    public Payment(){}
+    public int getCardNumber() {
+        return cardNumber;
     }
 
-    public void setAmount(float amount) {
-        this.amount = amount;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCardNumber(int cardNumber) {
+        this.cardNumber = cardNumber;
     }
 
     public Date getDate() {
@@ -77,4 +48,11 @@ public class Payment {
         this.date = date;
     }
 
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
 }
