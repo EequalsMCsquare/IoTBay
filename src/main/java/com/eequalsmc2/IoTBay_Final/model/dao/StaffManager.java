@@ -127,7 +127,7 @@ public class StaffManager {
             return null;
         }
         Staff staff;
-        String sql = "SELECT staff.id, email, password, first_name, last_name, phone, gender, dob, privilege, sp.name as position FROM staff\n" +
+        String sql = "SELECT staff.id, email, activated, password, first_name, last_name, phone, gender, dob, privilege, sp.name as position FROM staff\n" +
                 "INNER JOIN staff_positions sp on staff.position_id = sp.id WHERE staff.email = ?;";
         PreparedStatement st = conn().prepareStatement(sql);
         st.setString(1, email);
@@ -144,6 +144,7 @@ public class StaffManager {
             staff.setPassword(rs.getString("password"));
             staff.setPrivilege(rs.getInt("privilege"));
             staff.setPosition(rs.getString("position"));
+            staff.setActivated(rs.getBoolean("activated"));
             return staff;
         }
         return null;
@@ -152,7 +153,7 @@ public class StaffManager {
 
     public Staff get(int id) throws SQLException {
         Staff staff;
-        String sql = "SELECT staff.id, email, password, first_name, last_name, phone, gender, dob, privilege, sp.name as position FROM staff\n" +
+        String sql = "SELECT staff.id, email, activated, password, first_name, last_name, phone, gender, dob, privilege, sp.name as position FROM staff\n" +
                 "INNER JOIN staff_positions sp on staff.position_id = sp.id WHERE staff.id = ?;";
         PreparedStatement st = conn().prepareStatement(sql);
         st.setInt(1, id);
@@ -169,6 +170,7 @@ public class StaffManager {
             staff.setPassword(rs.getString("password"));
             staff.setPrivilege(rs.getInt("privilege"));
             staff.setPosition(rs.getString("position"));
+            staff.setActivated(rs.getBoolean("activated"));
             return staff;
         }
         return null;
@@ -176,7 +178,7 @@ public class StaffManager {
 
     public List<Staff> getAll() throws SQLException {
         LinkedList<Staff> staff = new LinkedList<>();
-        String sql = "SELECT staff.id, email, password, first_name, last_name, phone, gender, dob, privilege, sp.name as position FROM staff\n" +
+        String sql = "SELECT staff.id, email, activated, password, first_name, last_name, phone, gender, dob, privilege, sp.name as position FROM staff\n" +
                 "INNER JOIN staff_positions sp on staff.position_id = sp.id;";
         Statement p = conn().createStatement();
         ResultSet resultSet = p.executeQuery(sql);
@@ -192,6 +194,7 @@ public class StaffManager {
             user.setPassword(resultSet.getString("password"));
             user.setPrivilege(resultSet.getInt("privilege"));
             user.setPosition(resultSet.getString("position"));
+            user.setActivated(resultSet.getBoolean("activated"));
             staff.add(user);
         }
         return staff;
@@ -203,7 +206,7 @@ public class StaffManager {
             filter = "sp.name";
         }
         String sql;
-        sql = "SELECT staff.id, email, password, first_name, last_name, phone, gender, dob, privilege, sp.name as position FROM staff\n" +
+        sql = "SELECT staff.id, email, password, first_name, last_name, phone, gender, dob, privilege, activated, sp.name as position FROM staff\n" +
                 "INNER JOIN staff_positions sp on staff.position_id = sp.id WHERE " + filter + " LIKE ?;";
         PreparedStatement p = conn().prepareStatement(sql);
         p.setString(1, "%" + by + "%");
@@ -220,8 +223,23 @@ public class StaffManager {
             user.setPassword(resultSet.getString("password"));
             user.setPrivilege(resultSet.getInt("privilege"));
             user.setPosition(resultSet.getString("position"));
+            user.setActivated(resultSet.getBoolean("activated"));
             staff.add(user);
         }
         return staff;
+    }
+
+    public void activate(int id) throws SQLException {
+        String q = "UPDATE staff SET activated = TRUE WHERE staff.id = ?;";
+        PreparedStatement p = conn().prepareStatement(q);
+        p.setInt(1, id);
+        p.execute();
+    }
+
+    public void deactivate(int id) throws SQLException {
+        String q = "UPDATE staff SET activated = FALSE WHERE staff.id = ?;";
+        PreparedStatement p = conn().prepareStatement(q);
+        p.setInt(1, id);
+        p.execute();
     }
 }

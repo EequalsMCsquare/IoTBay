@@ -135,6 +135,20 @@
                             <div class="btn-group btn-group-sm" role="group">
                                 <a type="button" class="btn btn-warning" href="staff_edit.jsp?staff_id=<%=user.getId()%>">Edit</a>
                                 <a type="button" class="btn btn-danger" href="staffServlet?action=delete&id=<%=e.getId()%>">Delete</a>
+                                <%
+                                    if (e.getId() != user.getId()) {
+                                        if(e.isActivated()) {
+                                %>
+                                    <a type="button" class="btn btn-secondary" href="staffServlet?action=deactivate&id=<%=e.getId()%>">Deactivate</a>
+                                <%
+                                    }
+                                    if(!e.isActivated()) {
+                                %>
+                                    <a type="button" class="btn btn-primary" href="staffServlet?action=activate&id=<%=e.getId()%>">Activate</a>
+                                <%
+                                        }
+                                    }
+                                %>
                             </div>
                         </td>
                     </tr>

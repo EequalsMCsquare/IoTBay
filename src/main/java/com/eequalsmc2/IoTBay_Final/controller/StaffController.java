@@ -68,46 +68,6 @@ public class StaffController extends HttpServlet {
     }
 
 
-    private void handleModifyProfile(HttpServletRequest req, HttpServletResponse resp) throws IOException, ParseException {
-        int id = (int) req.getAttribute("id");
-        String password = req.getParameter("password");
-        if(!isValidPasswordFormat(password)) {
-            alert(resp.getWriter(), "Invalid password format!");
-        }
-        String firstName = req.getParameter("firstName");
-        String lastName = req.getParameter("lastName");
-        String gender = req.getParameter("gender");
-        String phone = req.getParameter("phone");
-        String dob = req.getParameter("dob");
-        String privilege = req.getParameter("privilege");
-        String position = req.getParameter("position");
-
-        Staff user = new Staff();
-        user.setId(id);
-        user.setPassword(password);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setGender(gender);
-        user.setPhone(phone);
-        user.setDob(dob);
-        user.setPrivilege(Integer.parseInt(privilege));
-        user.setPosition(position);
-
-
-        try {
-            sm.update(user);
-            sam.create(user.getId(), "edit profile");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        resp.sendRedirect("staff_manage.jsp");
-    }
-
-    private void alert(PrintWriter writer, String s) {
-        writer.println(
-                "<script>alert('" + s + "'); window.history.go(-2);</script>"
-        );
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -119,6 +79,22 @@ public class StaffController extends HttpServlet {
                 int id = Integer.parseInt(qs[1].split("=")[1]);
                 req.setAttribute("id", id);
                 handleDelete(req, resp);
+            } else if (action.equalsIgnoreCase("activate")) {
+                int id = Integer.parseInt(qs[1].split("=")[1]);
+                try {
+                    sm.activate(id);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                resp.sendRedirect("staff_manage.jsp");
+            } else if (action.equalsIgnoreCase("deactivate")) {
+                int id = Integer.parseInt(qs[1].split("=")[1]);
+                try {
+                    sm.deactivate(id);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                resp.sendRedirect("staff_manage.jsp");
             }
         }
     }
@@ -199,6 +175,45 @@ public class StaffController extends HttpServlet {
             throwables.printStackTrace();
         }
         resp.sendRedirect("admin.jsp");
+    }
+
+    private void handleModifyProfile(HttpServletRequest req, HttpServletResponse resp) throws IOException, ParseException {
+        int id = (int) req.getAttribute("id");
+        String password = req.getParameter("password");
+        if(!isValidPasswordFormat(password)) {
+            alert(resp.getWriter(), "Invalid password format!");
+        }
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        String gender = req.getParameter("gender");
+        String phone = req.getParameter("phone");
+        String dob = req.getParameter("dob");
+        String privilege = req.getParameter("privilege");
+        String position = req.getParameter("position");
+
+        Staff user = new Staff();
+        user.setId(id);
+        user.setPassword(password);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setGender(gender);
+        user.setPhone(phone);
+        user.setDob(dob);
+        user.setPrivilege(Integer.parseInt(privilege));
+        user.setPosition(position);
+
+
+        try {
+            sm.update(user);
+            sam.create(user.getId(), "edit profile");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        resp.sendRedirect("staff_manage.jsp");
+    }
+
+    private void alert(PrintWriter writer, String s) {
+
     }
 
     private void handleRegister(HttpServletRequest req, HttpServletResponse resp) throws IOException {
