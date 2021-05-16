@@ -74,7 +74,7 @@
             %>
             <div>
                 <button class="btn btn-success active" type="button" onclick="window.location='customer_profile.jsp'">My Account</button>
-                <a href="logoutServlet" type="button" class="btn btn-warning">Logout</a>
+                <a class="btn btn-warning" type="button" href="logoutServlet">Logout</a>
             </div>
             <%
                 }
@@ -96,49 +96,23 @@
     <div class="container">
         <!-- Example row of columns -->
         <div class="row">
-            <div class="col-md-4">
-                <h2>Order</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a class="btn btn-success btn-block" href="#" role="button">View Order</a></p>
-            </div>
-
-            <div class="col-md-4">
-                <h2>Cart </h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a class="btn btn-dark btn-block" href="#" role="button">View Cart</a></p>
-            </div>
 
             <div class="col-md-4">
                 <h2>Payment</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a class="btn btn-info btn-block" href="#" role="button" onclick="window.location='payment_menu.jsp'">Manage Payment</a></p>
+                <p>View your payment</p>
+                <p><a class="btn btn-info btn-block" href="#" role="button" onclick="window.location='paymentDetailServlet?action=view'">View Payment</a></p>
+            </div>
+
+            <div class="col-md-4">
+                <h2>PaymentDetail</h2>
+                <p>Manage your payment detail</p>
+                <p><a class="btn btn-info btn-block" href="#" role="button" onclick="window.location='paymentServlet?action=view'">View PaymentDetail</a></p>
 
             </div>
         </div>
 
         <hr>
 
-        <div class="row">
-            <div class="col-md-4">
-                <h2>Profile</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#profileModal">
-                    Edit My Profile
-                </button>
-            </div>
-
-            <div class="col-md-4">
-                <h2>Access Log</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a role="button" class="btn btn-warning btn-block" href="#">View Access Log</a></p>
-            </div>
-
-            <div class="col-md-4">
-                <h2>Account</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a role="button" class="btn btn-danger btn-block" href="delete_account.jsp">Cancel My Account</a></p>
-            </div>
-        </div>
 
         <hr>
 

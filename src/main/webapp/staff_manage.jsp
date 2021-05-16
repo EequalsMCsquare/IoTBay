@@ -133,7 +133,7 @@
                         <td><%=e.getPosition()%></td>
                         <td>
                             <div class="btn-group btn-group-sm" role="group">
-                                <a type="button" class="btn btn-warning" href="staff_edit.jsp?staff_id=<%=user.getId()%>">Edit</a>
+                                <a type="button" class="btn btn-warning" href="staff_edit.jsp?staff_id=<%=e.getId()%>">Edit</a>
                                 <a type="button" class="btn btn-danger" href="staffServlet?action=delete&id=<%=e.getId()%>">Delete</a>
                                 <%
                                     if (e.getId() != user.getId()) {
