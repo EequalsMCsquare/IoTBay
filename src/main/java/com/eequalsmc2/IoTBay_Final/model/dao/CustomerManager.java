@@ -74,20 +74,21 @@ public class CustomerManager {
     }
 
     public void delete(int id) throws SQLException {
-        // delete user
-        String sql = "DELETE FROM customers WHERE id = ?";
-        PreparedStatement st = conn().prepareStatement(sql);
-        st.setInt(1, id);
-        st.execute();
 
         // delete user address
-        sql = "DELETE FROM customer_address WHERE customer_id = ?";
-        st = conn().prepareStatement(sql);
+        String sql = "DELETE FROM customer_address WHERE customer_id = ?";
+        PreparedStatement st = conn().prepareStatement(sql);
         st.setInt(1, id);
         st.execute();
 
         // delete user access log
         sql = "DELETE FROM customer_access WHERE customer_id = ?";
+        st = conn().prepareStatement(sql);
+        st.setInt(1, id);
+        st.execute();
+
+        // delete user
+        sql = "DELETE FROM customers WHERE id = ?";
         st = conn().prepareStatement(sql);
         st.setInt(1, id);
         st.execute();

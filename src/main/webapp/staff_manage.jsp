@@ -134,7 +134,13 @@
                         <td>
                             <div class="btn-group btn-group-sm" role="group">
                                 <a type="button" class="btn btn-warning" href="staff_edit.jsp?staff_id=<%=e.getId()%>">Edit</a>
+                                <%
+                                    if (e.getId() != user.getId()) {
+                                %>
                                 <a type="button" class="btn btn-danger" href="staffServlet?action=delete&id=<%=e.getId()%>">Delete</a>
+                                <%
+                                    }
+                                %>
                                 <%
                                     if (e.getId() != user.getId()) {
                                         if(e.isActivated()) {

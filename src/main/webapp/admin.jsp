@@ -68,7 +68,7 @@
             <div class="col-md-4">
                 <h2>Device</h2>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a role="button" class="btn btn-success btn-block" href="device?operate=list">Device</a></p>
+                <p><a role="button" class="btn btn-info btn-block" href="device?operate=list">Device</a></p>
             </div>
         </div>
 
