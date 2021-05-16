@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @WebServlet("/customerServlet")
 public class CustomerController extends HttpServlet {
@@ -28,6 +27,7 @@ public class CustomerController extends HttpServlet {
         super();
         db = new DB();
         manager = new CustomerManager(db);
+        accessManager = new CustomerAccessManager(db);
         sdf = new SimpleDateFormat("yyyy-MM-dd");
     }
 
