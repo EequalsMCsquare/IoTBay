@@ -1,10 +1,11 @@
 package com.eequalsmc2.IoTBay_Final.controller;
 
-import com.eequalsmc2.IoTBay_Final.model.Payment;
 import com.eequalsmc2.IoTBay_Final.model.Customer;
+import com.eequalsmc2.IoTBay_Final.model.Order;
+import com.eequalsmc2.IoTBay_Final.model.Payment;
 import com.eequalsmc2.IoTBay_Final.model.PaymentDetail;
-import com.eequalsmc2.IoTBay_Final.model.dao.PaymentManager;
 import com.eequalsmc2.IoTBay_Final.model.dao.PaymentDetailManager;
+import com.eequalsmc2.IoTBay_Final.model.dao.PaymentManager;
 import com.eequalsmc2.IoTBay_Final.utils.DB;
 
 import javax.servlet.ServletException;
@@ -14,20 +15,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-@WebServlet("/paymentServlet")
-public class PaymentController extends HttpServlet {
+@WebServlet("/paymentDetailServlet")
+public class PaymentDetailController extends HttpServlet {
     DB db;
     PaymentManager pdm;
     PaymentDetailManager pm;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-    public PaymentController() throws SQLException, ClassNotFoundException {
+    public PaymentDetailController() throws SQLException, ClassNotFoundException {
         super();
         db = new DB();
         pdm = new PaymentManager(db);
@@ -35,27 +37,25 @@ public class PaymentController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        if("view".equals(action)){
-            try {
-                view(req, resp);
-            } catch (ParseException | SQLException e) {
-                e.printStackTrace();
-            }
-        }else{
-            try {
-                delete(req, resp);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
         switch (action) {
+            case "view":
+                try {
+                    view(req, resp);
+                } catch (ParseException | SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "delete":
+                try {
+                    delete(req, resp);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+
             case "add":
                 try {
                     create(req, resp);
@@ -74,45 +74,57 @@ public class PaymentController extends HttpServlet {
         }
     }
 
+
+
+
     protected void create(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ParseException, SQLException {
-        Date date = sdf.parse(req.getParameter("expireDate"));
-        String name = req.getParameter("name");
-        int cardNumber = Integer.parseInt(req.getParameter("cardNumber"));
-        Payment card = new Payment(cardNumber, date, name);
+        /*
+
+         */
         HttpSession session = req.getSession();
         Customer customer = (Customer) session.getAttribute("user");
         int customerId = customer.getId();
-        pdm.create(card, customerId);
-        resp.sendRedirect("paymentServlet?action=view");
+        PaymentDetail payment=new PaymentDetail();
+        payment.setPayId(Integer.parseInt(req.getParameter("payId")));
+        payment.setStatus("pending");
+        payment.setDate(new Date());
+        payment.setCustomerId(customerId);
+        Integer orderId = Integer.parseInt(req.getParameter("orderId"));
+        payment.setOrderId(orderId);
+        payment.setAmount(9.99f);
+        pm.create(payment);
+        resp.sendRedirect("paymentDetailServlet?action=view");
     }
 
     protected void view(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ParseException, SQLException {
+
+
         HttpSession session = req.getSession();
         Customer customer = (Customer) session.getAttribute("user");
         int customerId = customer.getId();
+        List<PaymentDetail> payments = pm.list();
+        List<String> orderList = new ArrayList<>();
+        orderList.add("1");
+        orderList.add("2");
+        orderList.add("3");
         req.getSession().setAttribute("payments", pdm.listById(customerId));
-        req.getRequestDispatcher("payment.jsp").forward(req, resp);
+        req.getSession().setAttribute("orders", orderList);
+        req.getSession().setAttribute("paymentDetails", payments);
+        req.getRequestDispatcher("paymentDetail.jsp").forward(req, resp);
     }
 
     protected void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ParseException, SQLException {
-        Payment card= new Payment();
-        String name = req.getParameter("name");
-        Date date = sdf.parse(req.getParameter("expireDate"));
-        int cardNumber = Integer.parseInt(req.getParameter("cardNumber"));
-        card.setId(Integer.parseInt(req.getParameter("id")));
-        card.setName(name);
-        card.setDate(date);
-        card.setCardNumber(cardNumber);
-        HttpSession session = req.getSession();
-        Customer customer = (Customer) session.getAttribute("user");
-        int customerId = customer.getId();
-        pdm.update(card, customerId);
-        resp.sendRedirect("paymentServlet?action=view");
+        Integer id = Integer.parseInt(req.getParameter("id"));
+        PaymentDetail detail = new PaymentDetail();
+        String status = req.getParameter("status");
+        detail.setStatus(status);
+        pm.update(detail, id);
+        resp.sendRedirect("paymentDetailServlet?action=view");
     }
 
     protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         int id = Integer.parseInt(req.getParameter("id"));
-        pdm.delete(id);
-        resp.sendRedirect("paymentServlet?action=view");
+        pm.delete(id);
+        resp.sendRedirect("paymentDetailServlet?action=view");
     }
 }

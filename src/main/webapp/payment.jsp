@@ -6,7 +6,8 @@
   Time: 23:06
   To change this template use File | Settings | File Templates.
 --%>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!doctype html>
 <html lang="en">
@@ -96,49 +97,40 @@
     <div class="container">
         <!-- Example row of columns -->
         <div class="row">
-            <div class="col-md-4">
-                <h2>Order</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a class="btn btn-success btn-block" href="#" role="button">View Order</a></p>
-            </div>
-
-            <div class="col-md-4">
-                <h2>Cart </h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a class="btn btn-dark btn-block" href="#" role="button">View Cart</a></p>
-            </div>
-
-            <div class="col-md-4">
-                <h2>Payment</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a class="btn btn-info btn-block" href="#" role="button" onclick="window.location='payment_menu.jsp'">Manage Payment</a></p>
-
+            <button class="btn btn-primary" type="button" onclick="add()">add</button>
+        </div>
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-striped m-b-none" id="tbl">
+                    <thead>
+                    <tr>
+                        <th class="text-center">id</th>
+                        <th class="text-center">name</th>
+                        <th class="text-center">cardNumber</th>
+                        <th class="text-center">date</th>
+                        <th class="text-center">action</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-center">
+                    <c:forEach items="${payments}" var="item" varStatus="xh">
+                        <tr>
+                            <td>${item.id}</td>
+                            <td>${item.name}</td>
+                            <td>${item.cardNumber}</td>
+                            <td>${item.date}</td>
+                            <td>
+                                <button class="btn btn-info" type="button" onclick="edit(${item.id}, '${item.name}', ${item.cardNumber}, ${item.date})">edit</button>
+                                <button class="btn btn-danger" type="button" onclick="del(${item.id})">del</button>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
 
         <hr>
 
-        <div class="row">
-            <div class="col-md-4">
-                <h2>Profile</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#profileModal">
-                    Edit My Profile
-                </button>
-            </div>
-
-            <div class="col-md-4">
-                <h2>Access Log</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a role="button" class="btn btn-warning btn-block" href="#">View Access Log</a></p>
-            </div>
-
-            <div class="col-md-4">
-                <h2>Account</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a role="button" class="btn btn-danger btn-block" href="delete_account.jsp">Cancel My Account</a></p>
-            </div>
-        </div>
 
         <hr>
 
@@ -146,51 +138,67 @@
 
     <div>
         <!-- Profile Modal -->
-        <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
+                        <h5 class="modal-title">Add</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
 
                     <div class="modal-body">
-                        <form action="customerServlet?action=edit" method="post">
+                        <form action="paymentServlet?action=add" method="post">
                             <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="text" class="form-control" id="email" disabled placeholder=<%=user.getEmail()%>>
+                                <label for="Name">Name</label>
+                                <input type="text" class="form-control" name="name" placeholder="Name">
                             </div>
+
                             <div class="form-group">
-                                <label for="firstName">First Name</label>
-                                <input type="text" class="form-control" disabled id="firstName" name="firstName" placeholder="<%=user.getFirstName()%>">
+                                <label for="ExpireDate">Date On Card</label>
+                                <input type="date" name="expireDate" class="form-control">
                             </div>
+
                             <div class="form-group">
-                                <label for="lastName">Last Name</label>
-                                <input type="text" class="form-control" disabled id="lastName" name="lastName" placeholder=<%=user.getLastName()%>>
+                                <label for="CardNumber">Card Number</label>
+                                <input type="text" name="cardNumber" class="form-control" placeholder="Card Number">
                             </div>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form action="paymentServlet?action=edit" method="post">
+                            <input type="hidden" class="form-control" id="id" name="id" placeholder="id">
                             <div class="form-group">
-                                <label for="password">New Password</label>
-                                <input type="password" class="form-control" disabled id="password" name="password">
+                                <label for="Name">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Name">
                             </div>
+
                             <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <input type="text" class="form-control" disabled id="phone" name="phone" placeholder=<%=user.getPhone()%>>
+                                <label for="ExpireDate">Date On Card</label>
+                                <input type="date" id="expireDate" name="expireDate" class="form-control">
                             </div>
+
                             <div class="form-group">
-                                <label for="gender">Gender</label>
-                                <input type="text" class="form-control"disabled id="gender" name="gender" placeholder=<%=user.getGender()%>>
+                                <label for="CardNumber">Card Number</label>
+                                <input type="text" id="cardNumber" name="cardNumber" class="form-control" placeholder="Card Number">
                             </div>
-                            <div class="form-group">
-                                <label for="dob">Birthday</label>
-                                <input type="text" class="form-control" disabled id="dob" onfocus="(this.type='date')" name="dob" placeholder=<%=sdf.format(user.getDob())%>>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                                <button type="button" class="btn btn-warning" onclick="makeProfileEditable()">Edit</button>
-                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -202,20 +210,26 @@
 <footer class="container">
     <p>&copy; Company 2017-2020</p>
 </footer>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.js"></script></body>
+</body>
 
 <script>
-    let makeEditable = (id) => {
-        document.getElementById(id).removeAttribute("disabled");
+    function add() {
+        $("#addModal").modal("show");
     }
-    let makeProfileEditable = () => {
-        makeEditable("firstName");
-        makeEditable("lastName");
-        makeEditable("password");
-        makeEditable("phone");
-        makeEditable("gender");
-        makeEditable("dob");
+
+    function edit(id, name, cardNumber,expireDate) {
+        $("#editModal").modal("show");
+        $("#id").val(id);
+        $("#name").val(name);
+        $("#expireDate").val(expireDate);
+        $("#cardNumber").val(cardNumber);
+
+
     }
+
+    function del(id) {
+        window.location.href = "paymentServlet?action=delete&id=" + id;
+    }
+
 </script>
 </html>
