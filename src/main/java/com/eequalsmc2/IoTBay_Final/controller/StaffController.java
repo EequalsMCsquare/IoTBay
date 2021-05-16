@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,9 +40,8 @@ public class StaffController extends HttpServlet {
             String action = qs[0].split("=")[1];
             if (action.equalsIgnoreCase("register")) {
                 handleRegister(req, resp);
-            } else if (action.equalsIgnoreCase("delete")) {
-                handleDelete(req, resp);
-            } else if (action.equalsIgnoreCase("cancel")) {
+            }
+            else if (action.equalsIgnoreCase("cancel")) {
                 handleCancel(req, resp);
             }
         } else if (qs.length == 2) {
@@ -54,6 +54,47 @@ public class StaffController extends HttpServlet {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+            } else if(action.equalsIgnoreCase("modify")) {
+                int id = Integer.parseInt(qs[1].split("=")[1]);
+                req.setAttribute("id", id);
+                try {
+                    handleModifyProfile(req, resp);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String q = req.getQueryString();
+        String[] qs = q.split("&");
+        if (qs.length == 2) {
+            String action = qs[0].split("=")[1];
+            if (action.equalsIgnoreCase("delete")) {
+                int id = Integer.parseInt(qs[1].split("=")[1]);
+                req.setAttribute("id", id);
+                handleDelete(req, resp);
+            } else if (action.equalsIgnoreCase("activate")) {
+                int id = Integer.parseInt(qs[1].split("=")[1]);
+                try {
+                    sm.activate(id);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                resp.sendRedirect("staff_manage.jsp");
+            } else if (action.equalsIgnoreCase("deactivate")) {
+                int id = Integer.parseInt(qs[1].split("=")[1]);
+                try {
+                    sm.deactivate(id);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                resp.sendRedirect("staff_manage.jsp");
             }
         }
     }
@@ -69,16 +110,16 @@ public class StaffController extends HttpServlet {
         resp.sendRedirect("index.jsp");
     }
 
-    // required parameter:
-    // id: to be deleted user's id
-    private void handleDelete(HttpServletRequest req, HttpServletResponse resp) {
-        String idQuery = req.getParameter("id");
-        int id = Integer.parseInt(idQuery);
+    // required attribute:
+        // id: to be deleted user's id
+    private void handleDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        int id = (int) req.getAttribute("id");
         try {
             sm.delete(id);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        resp.sendRedirect("staff_manage.jsp");
     }
 
     private void handleEditProfile(HttpServletRequest req, HttpServletResponse resp) throws ParseException, IOException {
@@ -87,8 +128,8 @@ public class StaffController extends HttpServlet {
         if(!isValidPasswordFormat(password)) {
 
         }
-        String firstName = req.getParameter("first_name");
-        String lastName = req.getParameter("last_name");
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
         String gender = req.getParameter("gender");
         String phone = req.getParameter("phone");
         String dob = req.getParameter("dob");
@@ -133,13 +174,51 @@ public class StaffController extends HttpServlet {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         resp.sendRedirect("admin.jsp");
     }
 
-    private void handleRegister(HttpServletRequest req, HttpServletResponse resp) {
+    private void handleModifyProfile(HttpServletRequest req, HttpServletResponse resp) throws IOException, ParseException {
+        int id = (int) req.getAttribute("id");
+        String password = req.getParameter("password");
+        if(!isValidPasswordFormat(password)) {
+            alert(resp.getWriter(), "Invalid password format!");
+        }
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        String gender = req.getParameter("gender");
+        String phone = req.getParameter("phone");
+        String dob = req.getParameter("dob");
+        String privilege = req.getParameter("privilege");
+        String position = req.getParameter("position");
+
+        Staff user = new Staff();
+        user.setId(id);
+        user.setPassword(password);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setGender(gender);
+        user.setPhone(phone);
+        user.setDob(dob);
+        user.setPrivilege(Integer.parseInt(privilege));
+        user.setPosition(position);
+
+
+        try {
+            sm.update(user);
+            sam.create(user.getId(), "edit profile");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        resp.sendRedirect("staff_manage.jsp");
+    }
+
+    private void alert(PrintWriter writer, String s) {
+
+    }
+
+    private void handleRegister(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int pk = 0;
-        String email = req.getParameter("email");
+        String email = req.getParameter("email") + "@staff.iotbay.com";
         if (!isValidEmailFormat(email)) {
 
         }
@@ -147,8 +226,8 @@ public class StaffController extends HttpServlet {
         if(!isValidPasswordFormat(password)) {
 
         }
-        String firstName = req.getParameter("first_name");
-        String lastName = req.getParameter("last_name");
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
         String gender = req.getParameter("gender");
         String phone = req.getParameter("phone");
         String dob = req.getParameter("dob");
@@ -162,10 +241,13 @@ public class StaffController extends HttpServlet {
             // handle error
         }
         // TODO
+        resp.sendRedirect("staff_manage.jsp");
     }
 
     private boolean isValidPasswordFormat(String password) {
-        // TODO:
+        if (password.length() < 6) {
+            return false;
+        }
         return true;
     }
 

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
@@ -96,6 +97,10 @@ public class LoginController extends HttpServlet {
             resp.getWriter().println("Wrong Login Info");
             return;
         }
+        // deactivated user are not allowed to login
+        if(!user.isActivated()) {
+            alert(resp.getWriter(), "Your account is not activated, please contact System Admin");
+        }
         req.getSession().setAttribute("user", user);
         // update access log
         try {
@@ -104,6 +109,13 @@ public class LoginController extends HttpServlet {
             throwables.printStackTrace();
         }
         resp.sendRedirect("index.jsp");
+    }
+
+    private void alert(PrintWriter w, String msg) {
+        w.print("<script type='text/javascript'>alert('" + msg + "');</script>");
+        w.print("<script type='text/javascript'>window.history.go(-1);</script>");
+        w.flush();
+        w.close();
     }
 
     private boolean isValidEmailFormat(String email) {

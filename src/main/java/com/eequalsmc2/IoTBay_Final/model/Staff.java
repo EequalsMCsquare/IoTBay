@@ -6,6 +6,7 @@ import java.util.Date;
 public class Staff extends User implements Serializable {
     private int privilege;
     private String position;
+    private boolean activated;
 
     public Staff() {}
 
@@ -25,11 +26,20 @@ public class Staff extends User implements Serializable {
         this.position = position;
     }
 
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
+
     @Override
     public String toString() {
         return "Staff{" +
                 "privilege=" + privilege +
                 ", position='" + position + '\'' +
+                ", activated=" + activated +
                 ", id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
