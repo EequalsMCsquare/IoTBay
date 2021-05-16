@@ -69,6 +69,7 @@
             <div>
                 <button class="btn btn-light" type="button" onclick="window.location='login.jsp'">Login</button>
                 <button class="btn btn-primary" type="button" onclick="window.location='register.jsp'">Register</button>
+                <button class="btn btn-primary" type="button" onclick="window.location='payment.jsp'">Login</button>
             </div>
             <%
             } else {
@@ -76,6 +77,7 @@
             <div>
                 <button class="btn btn-success active" type="button" onclick="window.location='customer_profile.jsp'">My Account</button>
                 <button class="btn btn-warning" type="button" onclick="window.location='logout.jsp'">Logout</button>
+                <button class="btn btn-primary" type="button" onclick="window.location='payment.jsp'">MyPayment</button>
             </div>
             <%
                 }
