@@ -4,6 +4,7 @@ import com.eequalsmc2.IoTBay_Final.model.Staff;
 import com.eequalsmc2.IoTBay_Final.model.dao.StaffAccessManager;
 import com.eequalsmc2.IoTBay_Final.model.dao.StaffManager;
 import com.eequalsmc2.IoTBay_Final.utils.DB;
+import com.eequalsmc2.IoTBay_Final.utils.Helper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -105,7 +106,7 @@ public class StaffController extends HttpServlet {
         try {
             sm.delete(user.getId());
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            Helper.alert(resp.getWriter(), "fail to cancel user");
         }
         resp.sendRedirect("index.jsp");
     }
@@ -117,7 +118,7 @@ public class StaffController extends HttpServlet {
         try {
             sm.delete(id);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            Helper.alert(resp.getWriter(), "fail to delete user");
         }
         resp.sendRedirect("staff_manage.jsp");
     }
@@ -126,7 +127,7 @@ public class StaffController extends HttpServlet {
         int id = (int) req.getAttribute("id");
         String password = req.getParameter("password");
         if(!isValidPasswordFormat(password)) {
-
+            Helper.alert(resp.getWriter(), "Password length must >= 6");
         }
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
@@ -140,8 +141,7 @@ public class StaffController extends HttpServlet {
         try {
             user = sm.get(id);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            resp.setStatus(500);
+            Helper.alert(resp.getWriter(), "User does not exist!");
         }
 
         if (!isNullOrEmpty(password)) {
@@ -172,7 +172,7 @@ public class StaffController extends HttpServlet {
             sm.update(user);
             sam.create(user.getId(), "edit profile");
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            Helper.alert(resp.getWriter(), "fail to update info");
         }
         resp.sendRedirect("admin.jsp");
     }
@@ -181,7 +181,7 @@ public class StaffController extends HttpServlet {
         int id = (int) req.getAttribute("id");
         String password = req.getParameter("password");
         if(!isValidPasswordFormat(password)) {
-            alert(resp.getWriter(), "Invalid password format!");
+            Helper.alert(resp.getWriter(), "Invalid password format!");
         }
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
@@ -208,23 +208,21 @@ public class StaffController extends HttpServlet {
             sam.create(user.getId(), "edit profile");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            Helper.alert(resp.getWriter(), "fail to modify user!");
         }
         resp.sendRedirect("staff_manage.jsp");
     }
 
-    private void alert(PrintWriter writer, String s) {
-
-    }
 
     private void handleRegister(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int pk = 0;
         String email = req.getParameter("email") + "@staff.iotbay.com";
         if (!isValidEmailFormat(email)) {
-
+            Helper.alert(resp.getWriter(), "invalid email format");
         }
         String password = req.getParameter("password");
         if(!isValidPasswordFormat(password)) {
-
+            Helper.alert(resp.getWriter(), "invalid password format");
         }
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
@@ -238,9 +236,9 @@ public class StaffController extends HttpServlet {
             pk = sm.create(email, firstName, lastName, gender, dob, phone, password, privilege, position);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            // handle error
+            Helper.alert(resp.getWriter(), "fail to create user");
+            return;
         }
-        // TODO
         resp.sendRedirect("staff_manage.jsp");
     }
 
