@@ -111,8 +111,12 @@
             <div class="col-md-4">
                 <h2>Payment</h2>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
+<<<<<<< HEAD
+                <p><a class="btn btn-info btn-block" href="payment_edit.jsp" role="button">Manage Payment</a></p>
+=======
                 <p><a class="btn btn-info btn-block" href="#" role="button" onclick="window.location='payment_menu.jsp'">Manage Payment</a></p>
 
+>>>>>>> bed4642fe0e5310b1269cb11e6f2943a56dd453a
             </div>
         </div>
 
@@ -202,8 +206,10 @@
 <footer class="container">
     <p>&copy; Company 2017-2020</p>
 </footer>
+</body>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.js"></script></body>
+<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.js"></script>
 
 <script>
     let makeEditable = (id) => {
