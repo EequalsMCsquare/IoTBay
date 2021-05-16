@@ -40,7 +40,7 @@ public class StaffTest {
         userFirstName  = "testUserFirstName";
         userLastName = "testUserLastName";
         userGender  = "male";
-        userPhone = "123123123";
+        userPhone = "123198456";
         userDob = sdf.parse("1999-07-11");
         userPrivilege = 1;
         userPosition = "salesperson";

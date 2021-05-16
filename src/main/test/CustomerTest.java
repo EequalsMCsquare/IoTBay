@@ -34,7 +34,7 @@ public class CustomerTest {
         userFirstName  = "testUserFirstName";
         userLastName = "testUserLastName";
         userGender  = "male";
-        userPhone = "123123123";
+        userPhone = "123809345";
         userDob = sdf.parse("1999-07-11");
     }
 

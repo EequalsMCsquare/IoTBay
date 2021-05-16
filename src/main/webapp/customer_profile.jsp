@@ -130,7 +130,7 @@
             <div class="col-md-4">
                 <h2>Access Log</h2>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo amet optio, nulla minima itaque ut placeat eum est libero incidunt molestias provident a qui, eaque non enim tenetur magnam? Nobis!</p>
-                <p><a role="button" class="btn btn-warning btn-block" href="#">View Access Log</a></p>
+                <p><a role="button" class="btn btn-warning btn-block" href="user_access.jsp">View Access Log</a></p>
             </div>
 
             <div class="col-md-4">
