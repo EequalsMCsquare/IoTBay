@@ -4,6 +4,7 @@ import com.eequalsmc2.IoTBay_Final.model.Customer;
 import com.eequalsmc2.IoTBay_Final.model.dao.CustomerAccessManager;
 import com.eequalsmc2.IoTBay_Final.model.dao.CustomerManager;
 import com.eequalsmc2.IoTBay_Final.utils.DB;
+import com.eequalsmc2.IoTBay_Final.utils.Helper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -51,13 +52,14 @@ public class CustomerController extends HttpServlet {
         try {
             manager.delete(user.getId());
         } catch (SQLException e) {
-            resp.getWriter().println("fail to delete user!");
+            Helper.alert(resp.getWriter(), "fail to delete user");
         }
         resp.sendRedirect("index.jsp");
     }
 
     // required parameter:
     // id: to be deleted user's id
+    // not required - Feature - 07
     private void handleDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
     }
@@ -74,13 +76,13 @@ public class CustomerController extends HttpServlet {
         try {
             customer.setDob(sdf.parse(req.getParameter("dob")));
         } catch (ParseException e) {
-            e.printStackTrace();
+            Helper.alert(resp.getWriter(), "wrong D.O.B format");
         }
         try {
             pk = manager.create(customer);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            resp.getWriter().println(throwables.getMessage());
+            Helper.alert(resp.getWriter(), "fail to create entity");
             return;
         }
         customer.setId(pk);

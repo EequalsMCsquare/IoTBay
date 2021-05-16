@@ -7,6 +7,7 @@ import com.eequalsmc2.IoTBay_Final.model.dao.CustomerManager;
 import com.eequalsmc2.IoTBay_Final.model.dao.StaffAccessManager;
 import com.eequalsmc2.IoTBay_Final.model.dao.StaffManager;
 import com.eequalsmc2.IoTBay_Final.utils.DB;
+import com.eequalsmc2.IoTBay_Final.utils.Helper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,11 +43,11 @@ public class LoginController extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         if(email == null || !isValidEmailFormat(email)) {
-            resp.getWriter().println("Wrong Login Info");
+            Helper.alert(resp.getWriter(), "Wrong login info");
             return;
         }
         if (password == null || !isValidPasswordFromat(password)) {
-            resp.getWriter().println("Wrong Login Info");
+            Helper.alert(resp.getWriter(), "Wrong login info");
             return;
         }
         if (email.split("@")[1].equalsIgnoreCase("staff.iotbay.com")) {
@@ -65,11 +66,11 @@ public class LoginController extends HttpServlet {
             throwables.printStackTrace();
         }
         if (user == null) {
-            resp.getWriter().println("Wrong Login Info");
+            Helper.alert(resp.getWriter(), "Wrong login info");
             return;
         }
         if (!user.getPassword().equals(password)) {
-            resp.getWriter().println("Wrong Login Info");
+            Helper.alert(resp.getWriter(), "Wrong login info");
             return;
         }
         req.getSession().setAttribute("user", user);
@@ -99,7 +100,7 @@ public class LoginController extends HttpServlet {
         }
         // deactivated user are not allowed to login
         if(!user.isActivated()) {
-            alert(resp.getWriter(), "Your account is not activated, please contact System Admin");
+            Helper.alert(resp.getWriter(), "Your account is not activated, please contact System Admin");
         }
         req.getSession().setAttribute("user", user);
         // update access log
@@ -109,13 +110,6 @@ public class LoginController extends HttpServlet {
             throwables.printStackTrace();
         }
         resp.sendRedirect("index.jsp");
-    }
-
-    private void alert(PrintWriter w, String msg) {
-        w.print("<script type='text/javascript'>alert('" + msg + "');</script>");
-        w.print("<script type='text/javascript'>window.history.go(-1);</script>");
-        w.flush();
-        w.close();
     }
 
     private boolean isValidEmailFormat(String email) {
